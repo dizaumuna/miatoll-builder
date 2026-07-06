@@ -1,0 +1,68 @@
+name: miatoll-builder
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_firmware_url:
+        description: "Source firmware zip URL"
+        required: true
+        type: string
+      is_hyperos:
+        description: "Target OS is HyperOS"
+        required: true
+        type: boolean
+        default: false
+      is_oxygenos:
+        description: "Target OS is OxygenOS"
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SOURCE_FIRMWARE_URL: ${{ github.event.inputs.source_firmware_url }}
+      IS_HYPEROS: ${{ github.event.inputs.is_hyperos }}
+      IS_OXYGENOS: ${{ github.event.inputs.is_oxygenos }}
+      VENDOR_PAT: ${{ secrets.VENDOR_PAT }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y aria2 unzip wget git
+
+      - name: Download source firmware
+        run: bash miatoll-builder/scripts/download_fw.sh
+
+      - name: Extract payload
+        run: bash miatoll-builder/scripts/extract_payload.sh
+
+      - name: Download tools
+        run: bash miatoll-builder/scripts/download_tools.sh
+
+      - name: Dump source images
+        run: bash miatoll-builder/scripts/dump_images.sh
+
+      - name: Clone target vendor
+        run: bash miatoll-builder/scripts/clone_vendor.sh
+
+      - name: Extract source images
+        run: bash miatoll-builder/scripts/extract_images.sh
+
+      - name: Port OxygenOS
+        if: ${{ github.event.inputs.is_oxygenos == 'true' }}
+        run: bash miatoll-builder/scripts/port_oxygenos.sh
+
+      - name: Port HyperOS
+        if: ${{ github.event.inputs.is_hyperos == 'true' }}
+        run: bash miatoll-builder/scripts/port_hyperos.sh
+
+      - name: Build ext4 images
+        run: bash miatoll-builder/scripts/build_images.sh
+
+      - name: Build super.img
+        run: bash miatoll-builder/scripts/build_super.sh
