@@ -133,7 +133,7 @@ echo "ro.sf.blurs_are_expensive=0" >> base_img/my_manifest/build.prop
 echo "oplus_customize_settings_zoom_wallpaper_enable=1" >> base_img/my_manifest/build.prop
 
 log "Cloning public miatoll vendor, branch ColorOS."
-git clone --depth=1 https://github.com/dizaumuna/vendor.git -d stock -b COLOROS
+git clone --depth=1 https://github.com/dizaumuna/vendor.git stock -b COLOROS
 
 log "Processing ColorOS setup fix by NezukoTM."
 mv fix/setup/com.qualcomm.location.apk base_img/system_ext/priv-app/com.qualcomm.location/
