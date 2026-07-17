@@ -3,13 +3,13 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-      base_link:
-        description: "fw link"
+      BASE_FW:
+        description: "The firmware of OnePlus."
         required: false
         type: string
         
 env:
-  BASE_LINK: ${{ inputs.base_link || secrets.BASE_LINK }}
+  BASE_FW: ${{ inputs.base_link || secrets.BASE_LINK }}
 
 jobs:
   build:
