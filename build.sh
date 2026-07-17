@@ -248,9 +248,9 @@ mv fspatch/fspatch.py .
 
 log_proc "Fixing filesystem contexts"
 python fspatch.py stock/vendor stock/config/vendor_fs_config
-python fspatch.py base_img/system stock/config/system_fs_config
-python fspatch.py base_img/system_ext stock/config/system_ext_fs_config
-python fspatch.py base_img/product stock/config/product_fs_config
+python fspatch.py base_img/system base_img/config/system_fs_config
+python fspatch.py base_img/system_ext base_img/config/system_ext_fs_config
+python fspatch.py base_img/product base_img/config/product_fs_config
 
 mkdir -p "$OUT_DIR"
 
