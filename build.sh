@@ -12,9 +12,6 @@ OUT_DIR="$SCRIPT_DIR/out"
 set -euo pipefail
 PARTITIONS=(system system_ext product vendor)
 
-# op12r, 16.0.8.300 cn:
-# https://component-ota-cn.allawntech.com/downloadCheck?c=2a3b4b196d1cc63b1fa6e8eb05734455&p=a6c78fdd3753888b3bced4fe179b6232c323fde6486054a48dbe00ba95280593ecec34dbe3293876b93bd3282179&d=e181cd82745f88956e8098ec0182623bca30a2a51b3715b3daa301a5c5764fc3b6e3339cb92e7339ee6490&g=10eab6008d5642cf42abd2aa41f847cb&id=6a2baeae007ddc01813deb57&taste=1&supportDLTaste=0&mode=1&tr=auto&s=9e02a9e438132ac8c9aa0b4c46b663f6
-
 # -- helpers
 log () {
     echo " - $1"
@@ -34,7 +31,7 @@ warn () {
 sudo mv binaries/* /usr/local/bin
 
 log "Downloading given target firmware using aria2c."
-aria2c -x8 -s8 "https://gauss-compotaauto-c-cn.allawnfs.com/remove-e4ef5e6e9cb7c89e7d1c1c779fd171c1/g-10eab6008d5642cf42abd2aa41f847cb/component-ota/26/04/10/70b2e0b5874d4b06aa56e4a51bb3eba7.zip?sign=c8eddde8583506ab66f9547754dac5d6&t=6a59e9ff&AWSAccessKeyId=ayjy7KyLVHvDqDax6_KqJgtBeORTJARg9MSGiL66&Expires=1784279165&Signature=8AY0OXk0SM2Dr4dRZTx4FZcv74w%3D"
+aria2c -x8 -s8 "https://gauss-compotaauto-c-cn.allawnfs.com/remove-e4ef5e6e9cb7c89e7d1c1c779fd171c1/g-10eab6008d5642cf42abd2aa41f847cb/component-ota/26/04/10/70b2e0b5874d4b06aa56e4a51bb3eba7.zip?sign=886be6978c57498c9121dc8c94777dc0&t=6a59edd0&AWSAccessKeyId=ayjy7KyLVHvDqDax6_KqJgtBeORTJARg9MSGiL66&Expires=1784280175&Signature=IROi8bQoKVQS46NlXm%2FXH%2Bj1bG0%3D" -o base.zip
 log_proc "Unzipping target firmware."
 unzip base.zip -d base_images/
 
