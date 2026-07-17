@@ -32,7 +32,7 @@ warn () {
     echo "  ! $1"
 }
 
-sudo apt update && sudo apt upgrade && sudo apt install -yqq git curl wget zip aria2 clang make && snap install go
+sudo apt update && sudo apt upgrade && sudo apt install -yqq git curl wget zip aria2 clang make && sudo snap install go
 
 log "Cloning Builder repository."
 git clone https://github.com/dizaumuna/Builder # clones binaries to here
