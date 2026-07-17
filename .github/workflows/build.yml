@@ -22,9 +22,6 @@ jobs:
           sudo docker image prune -a -f
           df -h
 
-      - name: Make script executable
-        run: chmod +x build.sh
-
       - name: Run build script
         run: ./build.sh
         env:
