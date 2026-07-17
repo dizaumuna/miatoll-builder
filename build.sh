@@ -34,7 +34,7 @@ warn () {
 sudo mv binaries/* /usr/local/bin
 
 log "Downloading given target firmware using aria2c."
-aria2c "$BASE_LINK" -o base.zip
+curl -# -L -o base.zip "$BASE_LINK"
 log_proc "Unzipping target firmware."
 unzip base.zip -d base_images/
 
