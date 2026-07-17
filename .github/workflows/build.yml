@@ -13,7 +13,7 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     timeout-minutes: 180
     steps:
       - name: Checkout repo
