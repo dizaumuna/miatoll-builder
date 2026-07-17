@@ -65,7 +65,7 @@ extract.erofs -x -i base/system_ext.img -s -o base_img/
 log_proc "Cleaning up before continuining."
 rm -rf base/*
 
-log "Fixing OnePlus identity."
+log "Replacing prop ro.product.first_api_level=34 with #ro.product.first_api_level=30."
 sed -i '/^ro\.product\.first_api_level/s/^/#/' base_img/my_manifest/build.prop
 sed -i '/^ro\.build\.version\.oplusrom\.display=/ s/$/ || by diza/' base_img/my_manifest/build.prop
 
@@ -79,10 +79,10 @@ echo "import /my_product/build.prop" >> base_img/system/system/build.prop
 echo "import /my_region/build.prop" >> base_img/system/system/build.prop
 echo "import /my_stock/build.prop" >> base_img/system/system/build.prop
 
-log_proc "Fixing CPU info."
+log_proc "Replacing prop ro.product.oplus.cpuinfo with Snapdragon 720G."
 echo "ro.product.oplus.cpuinfo=Snapdragon 720G" >> base_img/my_manifest/build.prop
 
-log_proc "Fixing DPI for miatoll."
+log_proc "Replacing prop ro.sf.lcd_density with 480."
 FILE="base_img/my_manifest/build.prop"
 
 if grep -q '^ro\.sf\.lcd_density=' "$FILE"; then
@@ -90,15 +90,15 @@ if grep -q '^ro\.sf\.lcd_density=' "$FILE"; then
 else
     echo 'ro.sf.lcd_density=480' >> "$FILE"
 fi
-log_proc "Fixing model name."
+log_proc "Replacing prop ro.product.name and model with ATOLL-AB."
 sed -i 's/^ro\.product\.name=.*/ro.product.name=ATOLL-AB/' base_img/my_manifest/build.prop
 sed -i 's/^ro\.product\.model=.*/ro.product.model=ATOLL-AB/' base_img/my_manifest/build.prop
 
-log_proc "Fixing market name."
+log_proc "Replacing prop ro.vendor.oplus.market.name and enname with Redmi Note 9 Pro."
 sed -i 's/^ro\.vendor\.oplus\.market\.name=.*/ro.vendor.oplus.market.name=Redmi Note 9 Pro/' base_img/my_manifest/build.prop
 sed -i 's/^ro\.vendor\.oplus\.market\.enname=.*/ro.vendor.oplus.market.enname=Redmi Note 9 Pro/' base_img/my_manifest/build.prop
 
-log_proc "Fixing sharp image resolution."
+log_proc "Replacing ro.oplus.density.fhd_default and qhd_default with 1080,2400."
 grep -q '^ro\.oplus\.density\.fhd_default=' base_img/my_manifest/build.prop \
 && sed -i 's/^ro\.oplus\.density\.fhd_default=.*/ro.oplus.density.fhd_default=480/' base_img/my_manifest/build.prop \
 || echo 'ro.oplus.density.fhd_default=480' >> base_img/my_manifest/build.prop
@@ -160,6 +160,86 @@ log_proc "Moved file oplus-netd.o to system/etc/bpf"
 
 log "Processing power button delay fix by getthefckoutofheree."
 mv fix/power_delay/* stock/vendor/
+
+log "Debloating system."
+rm -rf base_images/my_stock/app/AIMemory
+rm -rf base_images/my_stock/app/AIUnit
+rm -rf base_images/my_stock/app/AIWidgets
+rm -rf base_images/my_stock/app/AIWriter
+rm -rf base_images/my_stock/app/BeaconLink
+rm -rf base_images/my_stock/app/Browser
+rm -rf base_images/my_stock/app/CarLink
+rm -rf base_images/my_stock/app/ChildrenSpace
+rm -rf base_images/my_stock/app/DigitalKeyFramework
+rm -rf base_images/my_stock/app/DigitalWellBeing
+rm -rf base_images/my_stock/app/Instant
+rm -rf base_images/my_stock/app/InstantService
+rm -rf base_images/my_stock/app/OplusOperationManual
+rm -rf base_images/my_stock/app/OplusSecurityKeyboard
+rm -rf base_images/my_stock/app/OWork
+rm -rf base_images/my_stock/app/Pictorial
+rm -rf base_images/my_stock/app/RomUpdate
+rm -rf base_images/my_stock/app/SceneMode
+rm -rf base_images/my_stock/app/SecurePay
+rm -rf base_images/my_stock/app/SecurityGuard
+rm -rf base_images/my_stock/app/ShareScreen
+rm -rf base_images/my_stock/app/ViewTalk
+
+rm -rf base_images/my_stock/del-app/BackupAndRestore
+rm -rf base_images/my_stock/del-app/BrowserVideo
+rm -rf base_images/my_stock/del-app/Calculator2
+rm -rf base_images/my_stock/del-app/Calendar
+rm -rf base_images/my_stock/del-app/FamilyGuard
+rm -rf base_images/my_stock/del-app/FinShellWallet
+rm -rf base_images/my_stock/del-app/Gamecenter
+rm -rf base_images/my_stock/del-app/Health
+rm -rf base_images/my_stock/del-app/KeKeThemeSpace
+rm -rf base_images/my_stock/del-app/KeKeUserCenterMember
+rm -rf base_images/my_stock/del-app/Melody
+rm -rf base_images/my_stock/del-app/Music
+rm -rf base_images/my_stock/del-app/NewSoundRecorder
+rm -rf base_images/my_stock/del-app/OPBreathMode
+rm -rf base_images/my_stock/del-app/OPCommunity
+rm -rf base_images/my_stock/del-app/OplusDocumentsReader
+rm -rf base_images/my_stock/del-app/OplusEmail
+rm -rf base_images/my_stock/del-app/OplusQuickGame
+rm -rf base_images/my_stock/del-app/OppoCompass2
+rm -rf base_images/my_stock/del-app/OppoNote2
+rm -rf base_images/my_stock/del-app/OPPOStore
+rm -rf base_images/my_stock/del-app/OppoTranslation
+rm -rf base_images/my_stock/del-app/OppoWeather2
+rm -rf base_images/my_stock/del-app/RiderMode
+rm -rf base_images/my_stock/del-app/Shortcuts
+rm -rf base_images/my_stock/del-app/SoftsimRedteaRoaming
+rm -rf base_images/my_stock/del-app/Tips
+rm -rf base_images/my_stock/del-app/UPTsmService
+
+rm -rf base_images/my_stock/priv-app/BlackListApp
+rm -rf base_images/my_stock/priv-app/DCS
+rm -rf base_images/my_stock/priv-app/Cota
+rm -rf base_images/my_stock/priv-app/HeyCast
+rm -rf base_images/my_stock/priv-app/HeyTapSpeechAssist
+rm -rf base_images/my_stock/priv-app/KeKeMarket
+rm -rf base_images/my_stock/priv-app/KeKeOplusThemeStore-CN
+rm -rf base_images/my_stock/priv-app/LinktoWindows
+rm -rf base_images/my_stock/priv-app/Metis
+rm -rf base_images/my_stock/priv-app/MyDevices
+rm -rf base_images/my_stock/priv-app/OplusGames
+rm -rf base_images/my_stock/priv-app/OplusScreenRecorder
+rm -rf base_images/my_stock/priv-app/OPSynergy
+rm -rf base_images/my_stock/priv-app/OShare
+rm -rf base_images/my_stock/priv-app/PhoneManager
+rm -rf base_images/my_stock/priv-app/SceneService
+rm -rf base_images/my_stock/priv-app/SOSHelper
+rm -rf base_images/my_stock/priv-app/UMS
+rm -rf base_images/my_stock/priv-app/VideoGallery
+
+rm -rf base_images/my_product/app/AONService
+rm -rf base_images/my_product/app/OplusCamera
+# TODO: Add LatinImeGoogle and delete BaiduInput_U_Product
+rm -rf base_images/my_product/app/talkback
+rm -rf base_images/my_product/del-app/*
+rm -rf base_images/my_product/priv-app/RemoteControl
 
 mkdir -p "$OUT_DIR"
 
