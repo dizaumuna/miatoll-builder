@@ -1,2 +1,2 @@
-patches/apex/com.android.vndk.v30.apex filter=lfs diff=lfs merge=lfs -text
+fix/apex/com.android.vndk.v30.apex filter=lfs diff=lfs merge=lfs -text
 *.apex filter=lfs diff=lfs merge=lfs -text
