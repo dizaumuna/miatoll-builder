@@ -11,10 +11,6 @@ CONFIG_DIR="$BASE_DIR/config"
 OUT_DIR="$SCRIPT_DIR/out"
 set -euo pipefail
 PARTITIONS=(system system_ext product vendor)
-if ! command -v make_ext4fs >/dev/null 2>&1; then
-    error "make_ext4fs didnt found."
-    exit 1
-fi
 
 # op12r, 16.0.8.300 cn:
 # https://component-ota-cn.allawntech.com/downloadCheck?c=2a3b4b196d1cc63b1fa6e8eb05734455&p=a6c78fdd3753888b3bced4fe179b6232c323fde6486054a48dbe00ba95280593ecec34dbe3293876b93bd3282179&d=e181cd82745f88956e8098ec0182623bca30a2a51b3715b3daa301a5c5764fc3b6e3339cb92e7339ee6490&g=10eab6008d5642cf42abd2aa41f847cb&id=6a2baeae007ddc01813deb57&taste=1&supportDLTaste=0&mode=1&tr=auto&s=9e02a9e438132ac8c9aa0b4c46b663f6
