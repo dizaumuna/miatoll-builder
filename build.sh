@@ -34,7 +34,7 @@ warn () {
 sudo mv binaries/* /usr/local/bin
 
 log "Downloading given target firmware using aria2c."
-curl -# -L -o base.zip "$BASE_LINK"
+aria2c -x8 -s8 "https://gauss-compotaauto-c-cn.allawnfs.com/remove-e4ef5e6e9cb7c89e7d1c1c779fd171c1/g-10eab6008d5642cf42abd2aa41f847cb/component-ota/26/04/10/70b2e0b5874d4b06aa56e4a51bb3eba7.zip?sign=c8eddde8583506ab66f9547754dac5d6&t=6a59e9ff&AWSAccessKeyId=ayjy7KyLVHvDqDax6_KqJgtBeORTJARg9MSGiL66&Expires=1784279165&Signature=8AY0OXk0SM2Dr4dRZTx4FZcv74w%3D"
 log_proc "Unzipping target firmware."
 unzip base.zip -d base_images/
 
