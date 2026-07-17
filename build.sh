@@ -31,8 +31,6 @@ error () {
 warn () {
     echo "  ! $1"
 }
-
-sudo apt update && sudo apt upgrade && sudo apt install -yqq git curl wget zip aria2 clang make
 sudo mv binaries/* /usr/local/bin
 
 log "Downloading given target firmware using aria2c."
