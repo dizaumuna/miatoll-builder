@@ -40,7 +40,7 @@ log "Extracting images from bin file."
 payload-dumper-go base_images/payload.bin -output base/
 
 log_proc "Cleaning up before continuining."
-rm -rf base_images && base.zip
+rm -rf base_images base.zip
 
 mkdir temp
 mv base/my_*.img temp/ && mv base/system.img temp/ && mv base/system_ext.img temp/
