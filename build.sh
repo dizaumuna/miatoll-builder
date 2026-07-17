@@ -37,7 +37,7 @@ unzip base.zip payload.bin -d base_images/
 
 # run pdg
 log "Extracting images from bin file."
-payload-dumper-go base_images/payload.bin -output base/
+payload-dumper-go base_images/payload.bin -o base/
 
 log_proc "Cleaning up before continuining."
 rm -rf base_images base.zip
