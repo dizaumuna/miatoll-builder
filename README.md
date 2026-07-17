@@ -1,2 +1,0 @@
-# miatoll-builder
-Building ROMs.
