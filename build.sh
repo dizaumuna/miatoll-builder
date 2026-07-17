@@ -136,13 +136,13 @@ log "Cloning public miatoll vendor, branch ColorOS."
 git clone --depth=1 https://github.com/dizaumuna/vendor.git stock -b COLOROS
 
 log "Processing ColorOS setup fix by NezukoTM."
-mv -f fix/setup/com.qualcomm.location.apk base_img/system_ext/priv-app/com.qualcomm.location/
+cp -a fix/setup/com.qualcomm.location.apk base_img/system_ext/priv-app/com.qualcomm.location/
 log_proc "Moved file: com.qualcomm.location.apk to system_ext/priv-app/com.qualcomm.location"
-mv -f fix/setup/apex/com.android.* base_img/system/system/apex/
+cp -a fix/setup/apex/com.android.* base_img/system/system/apex/
 log_proc "Moved file: fix/setup/apex/com.android.* to system/apex"
 
 log "Processing VNDK patch."
-mv -f fix/apex/com.android.vndk.v30.apex base_img/system_ext/apex/
+cp -a fix/apex/com.android.vndk.v30.apex base_img/system_ext/apex/
 log_proc "Moved file: com.android.vndk.v30.apex to system_ext/apex"
 rm -rf base_img/system_ext/apex/com.android.vndk.v34.apex
 log_proc "Deleted useless file: com.android.vndk.v34.apex"
@@ -154,12 +154,12 @@ rm -rf base_img/system_ext/lib64/liboplusstagefright.so
 rm -rf base_img/system_ext/lib/liboplusstagefright.so 
 
 log "Processing BPF patch by NezukoTM."
-mv -f fix/bpf/* base_img/system/system/etc/bpf/
+cp -a fix/bpf/* base_img/system/system/etc/bpf/
 log_proc "Moved file ipv6_offload.o to system/etc/bpf"
 log_proc "Moved file oplus-netd.o to system/etc/bpf"
 
 log "Processing power button delay fix by getthefckoutofheree."
-mv -f fix/power_delay/* stock/vendor/
+cp -a fix/power_delay/* stock/vendor/
 
 log "Debloating system."
 rm -rf base_images/my_stock/app/AIMemory
