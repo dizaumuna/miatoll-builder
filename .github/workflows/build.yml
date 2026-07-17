@@ -28,7 +28,7 @@ jobs:
       - name: Run build script
         run: ./build.sh
         env:
-          BASE_LINK: ${{ env.BASE_LINK }}
+          BASE_FW: ${{ env.BASE_FW }}
 
       - name: List output images
         run: ls -lh out/
