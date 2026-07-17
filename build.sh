@@ -4,6 +4,7 @@
 # MIO kitchen owner, contributors
 # Antigravity & IDE
 # Claude, Gemini
+# affggh for fspatch
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$SCRIPT_DIR/base_img"
@@ -240,6 +241,15 @@ rm -rf base_images/my_product/app/OplusCamera
 rm -rf base_images/my_product/app/talkback
 rm -rf base_images/my_product/del-app/*
 rm -rf base_images/my_product/priv-app/RemoteControl
+
+log "Fetching fspatch.py"
+curl -# -L -o fspatch.py https://github.com/affggh/fspatch/blob/main/fspatch.py
+
+log_proc "Fixing filesystem contexts"
+python fspatch.py stock/vendor stock/config/vendor_fs_config
+python fspatch.py base_img/system stock/config/system_fs_config
+python fspatch.py base_img/system_ext stock/config/system_ext_fs_config
+python fspatch.py base_img/product stock/config/product_fs_config
 
 mkdir -p "$OUT_DIR"
 
