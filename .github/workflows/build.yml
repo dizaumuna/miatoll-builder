@@ -9,7 +9,7 @@ on:
         type: string
         
 env:
-  BASE_FW: ${{ inputs.base_link || secrets.BASE_LINK }}
+  BASE_FW: ${{ inputs.BASE_FW || secrets.BASE_FW }}
 
 jobs:
   build:
