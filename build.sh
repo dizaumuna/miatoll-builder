@@ -4,7 +4,6 @@
 # MIO kitchen owner, contributors
 # Antigravity & IDE
 # Claude, Gemini
-# affggh for fspatch
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$SCRIPT_DIR/base_img"
@@ -29,6 +28,31 @@ error () {
 warn () {
     echo "  ! $1"
 }
+
+register_context () {
+    local base="$1"
+    local fs_config="$2"
+    local file_contexts="$3"
+    local context="$4"
+    local target="$5"
+
+    while IFS= read -r f; do
+        local rel="${f#$base/}"
+        local mode=644
+        [ -d "$f" ] && mode=755
+
+        if ! grep -qF "$rel " "$fs_config" 2>/dev/null; then
+            echo "$rel 0 0 $mode" >> "$fs_config"
+        fi
+
+        local esc
+        esc=$(printf '%s' "$rel" | sed -e 's/[][\.^$*+?(){}|]/\\&/g')
+        if ! grep -qE "^/${esc}( |\$)" "$file_contexts" 2>/dev/null; then
+            echo "/$rel $context" >> "$file_contexts"
+        fi
+    done < <(find "$target")
+}
+
 sudo mv binaries/* /usr/local/bin
 
 log "Downloading given target firmware using aria2c."
@@ -136,14 +160,27 @@ echo "oplus_customize_settings_zoom_wallpaper_enable=1" >> base_img/my_manifest/
 log "Cloning public miatoll vendor, branch ColorOS."
 git clone --depth=1 https://github.com/dizaumuna/vendor.git stock -b COLOROS
 
+SYSTEM_FS_CONFIG="$CONFIG_DIR/system_fs_config"
+SYSTEM_FILE_CONTEXTS="$CONFIG_DIR/system_file_contexts"
+SYSTEM_EXT_FS_CONFIG="$CONFIG_DIR/system_ext_fs_config"
+SYSTEM_EXT_FILE_CONTEXTS="$CONFIG_DIR/system_ext_file_contexts"
+VENDOR_FS_CONFIG="stock/config/vendor_fs_config"
+VENDOR_FILE_CONTEXTS="stock/config/vendor_file_contexts"
+
 log "Processing ColorOS setup fix by NezukoTM."
 cp -a fix/setup/com.qualcomm.location.apk base_img/system_ext/priv-app/com.qualcomm.location/
+register_context "$BASE_DIR/system_ext" "$SYSTEM_EXT_FS_CONFIG" "$SYSTEM_EXT_FILE_CONTEXTS" u:object_r:system_ext_file:s0 base_img/system_ext/priv-app/com.qualcomm.location
 log_proc "Moved file: com.qualcomm.location.apk to system_ext/priv-app/com.qualcomm.location"
+
 cp -a fix/setup/apex/com.android.* base_img/system/system/apex/
+for item in fix/setup/apex/com.android.*; do
+    register_context "$BASE_DIR/system" "$SYSTEM_FS_CONFIG" "$SYSTEM_FILE_CONTEXTS" u:object_r:system_file:s0 "base_img/system/system/apex/$(basename "$item")"
+done
 log_proc "Moved file: fix/setup/apex/com.android.* to system/apex"
 
 log "Processing VNDK patch."
 cp -a fix/apex/com.android.vndk.v30.apex base_img/system_ext/apex/
+register_context "$BASE_DIR/system_ext" "$SYSTEM_EXT_FS_CONFIG" "$SYSTEM_EXT_FILE_CONTEXTS" u:object_r:system_ext_file:s0 base_img/system_ext/apex/com.android.vndk.v30.apex
 log_proc "Moved file: com.android.vndk.v30.apex to system_ext/apex"
 rm -rf base_img/system_ext/apex/com.android.vndk.v34.apex
 log_proc "Deleted useless file: com.android.vndk.v34.apex"
@@ -156,11 +193,15 @@ rm -rf base_img/system_ext/lib/liboplusstagefright.so
 
 log "Processing BPF patch by NezukoTM."
 cp -a fix/bpf/* base_img/system/system/etc/bpf/
+register_context "$BASE_DIR/system" "$SYSTEM_FS_CONFIG" "$SYSTEM_FILE_CONTEXTS" u:object_r:system_file:s0 base_img/system/system/etc/bpf
 log_proc "Moved file ipv6_offload.o to system/etc/bpf"
 log_proc "Moved file oplus-netd.o to system/etc/bpf"
 
 log "Processing power button delay fix by getthefckoutofheree."
 cp -a fix/power_delay/* stock/vendor/
+for d in fix/power_delay/*; do
+    register_context stock/vendor "$VENDOR_FS_CONFIG" "$VENDOR_FILE_CONTEXTS" u:object_r:vendor_file:s0 "stock/vendor/$(basename "$d")"
+done
 
 log "Debloating system."
 rm -rf base_images/my_stock/app/AIMemory
@@ -241,16 +282,6 @@ rm -rf base_images/my_product/app/OplusCamera
 rm -rf base_images/my_product/app/talkback
 rm -rf base_images/my_product/del-app/*
 rm -rf base_images/my_product/priv-app/RemoteControl
-
-log "Fetching fspatch.py"
-git clone https://github.com/affggh/fspatch
-mv fspatch/fspatch.py .
-
-log_proc "Fixing filesystem contexts"
-python fspatch.py stock/vendor stock/config/vendor_fs_config
-python fspatch.py base_img/system base_img/config/system_fs_config
-python fspatch.py base_img/system_ext base_img/config/system_ext_fs_config
-python fspatch.py base_img/product base_img/config/product_fs_config
 
 mkdir -p "$OUT_DIR"
 
