@@ -35,9 +35,9 @@ warn () {
 sudo apt update && sudo apt upgrade && sudo apt install -yqq git curl wget zip aria2 clang make
 
 log "Cloning Builder repository."
-git clone https://github.com/dizaumuna/Builder # clones binaries to here
-sudo mv Builder/binaries/* /usr/local/bin
-mv Builder/fix .
+git clone https://github.com/dizaumuna/miatoll-builder # clones binaries to here
+sudo mv miatoll-builder/binaries/* /usr/local/bin
+mv miatoll-builder/fix .
 
 log "Downloading given target firmware using aria2c."
 aria2c "$BASE_LINK" -o base.zip
