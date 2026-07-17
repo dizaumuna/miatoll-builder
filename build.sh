@@ -49,7 +49,6 @@ mv temp/* base/ && rm -rf temp
 log "Extracting OnePlus partitions [erofs]"
 extract.erofs -x -i base/my_bigball.img -s -o base_img/
 extract.erofs -x -i base/my_carrier.img -s -o base_img/
-extract.erofs -x -i base/my_company.img -s -o base_img/
 extract.erofs -x -i base/my_engineering.img -s -o base_img/
 extract.erofs -x -i base/my_heytap.img -s -o base_img/
 extract.erofs -x -i base/my_manifest.img -s -o base_img/
@@ -69,6 +68,16 @@ rm -rf base/*
 log "Fixing OnePlus identity."
 sed -i '/^ro\.product\.first_api_level/s/^/#/' base_img/my_manifest/build.prop
 sed -i '/^ro\.build\.version\.oplusrom\.display=/ s/$/ || by diza/' base_img/my_manifest/build.prop
+
+log "Fixing partitions."
+echo "import /my_bigball/build.prop" >> base_img/system/system/build.prop
+echo "import /my_carrier/build.prop" >> base_img/system/system/build.prop
+echo "import /my_engineering/build.prop" >> base_img/system/system/build.prop
+echo "import /my_heytap/build.prop" >> base_img/system/system/build.prop
+echo "import /my_manifest/build.prop" >> base_img/system/system/build.prop
+echo "import /my_product/build.prop" >> base_img/system/system/build.prop
+echo "import /my_region/build.prop" >> base_img/system/system/build.prop
+echo "import /my_stock/build.prop" >> base_img/system/system/build.prop
 
 log_proc "Fixing CPU info."
 echo "ro.product.oplus.cpuinfo=Snapdragon 720G" >> base_img/my_manifest/build.prop
