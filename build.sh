@@ -31,7 +31,7 @@ warn () {
 sudo mv binaries/* /usr/local/bin
 
 log "Downloading given target firmware using aria2c."
-aria2c -x8 -s8 "https://gauss-compotaauto-c-cn.allawnfs.com/remove-e4ef5e6e9cb7c89e7d1c1c779fd171c1/g-10eab6008d5642cf42abd2aa41f847cb/component-ota/26/04/10/70b2e0b5874d4b06aa56e4a51bb3eba7.zip?sign=fbd5a5178fb45fe4180b8749c99f0731&t=6a5a0c03&AWSAccessKeyId=ayjy7KyLVHvDqDax6_KqJgtBeORTJARg9MSGiL66&Expires=1784287893&Signature=Lv%2FgbCh%2B16jSgy04N5fNjMOmQz8%3D" -o base.zip
+aria2c -x8 -s8 "https://gauss-compotaauto-c-cn.allawnfs.com/remove-e4ef5e6e9cb7c89e7d1c1c779fd171c1/g-10eab6008d5642cf42abd2aa41f847cb/component-ota/26/04/10/70b2e0b5874d4b06aa56e4a51bb3eba7.zip?sign=cd5191597cea9430418e03221696a13b&t=6a5a1a42&AWSAccessKeyId=ayjy7KyLVHvDqDax6_KqJgtBeORTJARg9MSGiL66&Expires=1784291455&Signature=YLr1OBtPXx4cVH3uKYsOa4e0mQc%3D" -o base.zip
 log_proc "Unzipping target firmware."
 unzip base.zip payload.bin -d base_images/
 
