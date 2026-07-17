@@ -243,7 +243,8 @@ rm -rf base_images/my_product/del-app/*
 rm -rf base_images/my_product/priv-app/RemoteControl
 
 log "Fetching fspatch.py"
-curl -# -L -o fspatch.py https://github.com/affggh/fspatch/blob/main/fspatch.py
+git clone https://github.com/affggh/fspatch
+mv fspatch/fspatch.py .
 
 log_proc "Fixing filesystem contexts"
 python fspatch.py stock/vendor stock/config/vendor_fs_config
