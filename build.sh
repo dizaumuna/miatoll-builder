@@ -289,7 +289,7 @@ for partition in "${PARTITIONS[@]}"; do
     log_proc "Building $partition.img"
 
     RAW_SIZE=$(du -sb "$SRC_DIR" | cut -f1)
-    PADDED_SIZE=$(( RAW_SIZE + RAW_SIZE * 3 / 100 ))   # %3 padding
+    PADDED_SIZE=$(( RAW_SIZE + RAW_SIZE * 4 / 100 ))   # %3 padding
     BLOCK_SIZE=4096
     IMG_SIZE=$(( ( (PADDED_SIZE + BLOCK_SIZE - 1) / BLOCK_SIZE ) * BLOCK_SIZE ))
 
