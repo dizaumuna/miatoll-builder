@@ -440,7 +440,7 @@ mv $OUT_DIR/super.img tmp/ && mv updater-script tmp/
 cd tmp
 
 log_proc "Compressing ZIP file"
-zip -r -9 * miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip
+zip -r -9 miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip *
 
 mv miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip $OUT_DIR
 
