@@ -15,7 +15,7 @@ add_line() {
 }
 
 # com.qualcomm.location.apk (system_ext/priv-app)
-add_line "$EXT_FILE" '/system_ext/priv-app/com\.qualcomm\.location(/.*)?    u:object_r:system_file:s0'
+add_line "$EXT_FILE" '/system_ext/priv-app/com\.qualcomm\.location(/.*)?    u:object_r:system_ext_file:s0'
 
 # fix/setup/apex/com.android.* (system/system/apex)
 add_line "$SYS_FILE" '/system/system/apex(/.*)?    u:object_r:system_file:s0'
@@ -34,7 +34,7 @@ add_line "$SYS_FILE" '/system/my_reserve(/.*)?    u:object_r:system_file:s0'
 add_line "$SYS_FILE" '/system/my_stock(/.*)?    u:object_r:system_file:s0'
 
 # VNDK apex
-add_line "$EXT_FILE" '/system_ext/apex/com\.android\.vndk\.v30\.apex    u:object_r:system_file:s0'
+add_line "$EXT_FILE" '/system_ext/apex/com\.android\.vndk\.v30\.apex    u:object_r:system_ext_file:s0'
 
 # BPF
 add_line "$SYS_FILE" '/system/system/etc/bpf(/.*)?    u:object_r:system_file:s0'
