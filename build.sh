@@ -44,7 +44,7 @@ log_proc "Cleaning up before continuining."
 rm -rf base_images base.zip
 
 mkdir temp
-mv base/my_*.img temp/ && mv base/system.img temp/ && mv base/system_ext.img temp/
+mv base/my_*.img temp/ && mv base/system.img temp/ && mv base/system_ext.img temp/ && mv base/product.img temp/
 rm -rf base/*
 mv temp/* base/ && rm -rf temp
 log "Extracting OnePlus partitions [erofs]"
