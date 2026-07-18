@@ -318,6 +318,8 @@ declare -A PADDING_PERCENT=(
     [vendor]=4
 )
 
+declare -A PART_SIZES
+
 for partition in "${PARTITIONS[@]}"; do
     if [ "$partition" = "vendor" ]; then
         # vendor lives under stock/, not base_img/ — separate tree with its own configs
@@ -351,6 +353,7 @@ for partition in "${PARTITIONS[@]}"; do
     BLOCK_SIZE=4096
     IMG_SIZE=$(( ( (PADDED_SIZE + BLOCK_SIZE - 1) / BLOCK_SIZE ) * BLOCK_SIZE ))
     IMG_BLOCKS=$(( IMG_SIZE / BLOCK_SIZE ))
+    PART_SIZES[$partition]=$IMG_SIZE
 
     # Inode estimate: one per file/dir/symlink found, plus 10% headroom.
     NUM_ENTRIES=$(find "$SRC_DIR" | wc -l)
@@ -372,3 +375,28 @@ for partition in "${PARTITIONS[@]}"; do
 
     log "$partition.img's build is finished: $OUT_DIR/${partition}.img ($(du -h "$OUT_DIR/${partition}.img" | cut -f1))"
 done
+
+log "Building OS super image"
+
+SUPER_SIZE=8589934592
+GROUP_NAME="qti_dynamic_partitions"
+
+LPMAKE_ARGS=(
+    --metadata-size 65536
+    --metadata-slots 2
+    --super-name super
+    --device-size "$SUPER_SIZE"
+    --group "${GROUP_NAME}:${SUPER_SIZE}"
+)
+
+for partition in "${PARTITIONS[@]}"; do
+    LPMAKE_ARGS+=(--partition "${partition}:readonly:${PART_SIZES[$partition]}:${GROUP_NAME}")
+    LPMAKE_ARGS+=(--image "${partition}=$OUT_DIR/${partition}.img")
+done
+
+log_proc "lpmake: assembling super.img (${SUPER_SIZE} bytes, group ${GROUP_NAME})"
+lpmake "${LPMAKE_ARGS[@]}" \
+    --sparse \
+    --output "$OUT_DIR/super.img"
+
+log "super.img's build is finished: $OUT_DIR/super.img ($(du -h "$OUT_DIR/super.img" | cut -f1))"
