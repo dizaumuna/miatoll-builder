@@ -51,7 +51,7 @@ jobs:
       - name: Upload images as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: miatoll-coloros
+          name: miatoll-oxygenos
           path: out/miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip
           retention-days: 30
           if-no-files-found: error
