@@ -205,15 +205,25 @@ log "Processing power button delay fix by getthefckoutofheree."
 cp -a fix/power_delay/* stock/vendor/
 
 log "Debloating system."
+rm -rf base_img/my_stock/app/ambientalert
+rm -rf base_img/my_stock/app/FloatAssistant
+rm -rf base_img/my_stock/app/CloudService
+rm -rf base_img/my_stock/app/
 rm -rf base_img/my_stock/app/AIMemory
 rm -rf base_img/my_stock/app/AIWriter
+rm -rf base_img/my_stock/app/Browser
+rm -rf base_img/my_stock/app/Calculator2
 rm -rf base_img/my_stock/app/BeaconLink
 rm -rf base_img/my_stock/app/ChildrenSpace
+rm -rf base_img/my_stock/app/Instant
+rm -rf base_img/my_stock/app/OppoCompass2
 rm -rf base_img/my_stock/app/KeKePay
 rm -rf base_img/my_stock/app/OplusOperationManual
 rm -rf base_img/my_stock/app/OplusSecurityKeyboard
 rm -rf base_img/my_stock/app/SceneMode
 rm -rf base_img/my_stock/app/RomUpdate
+rm -rf base_img/my_stock/app/SecurePay
+rm -rf base_img/my_stock/app/WifiBackupRestore
 rm -rf base_img/my_stock/app/SoftsimRedteaRoaming
 
 rm -rf base_img/my_stock/del-app/BackupAndRestore
@@ -225,6 +235,9 @@ rm -rf base_img/my_stock/del-app/OppoTranslation
 rm -rf base_img/my_stock/del-app/OPBreathMode
 rm -rf base_img/my_stock/del-app/OPForum
 
+rm -rf base_img/my_stock/priv-app/AIUnit
+rm -rf base_img/my_stock/priv-app/KeKeMarket
+rm -rf base_img/my_stock/priv-app/KeKeThemeSpace
 rm -rf base_img/my_stock/priv-app/BlackListApp
 rm -rf base_img/my_stock/priv-app/GlobalSearch
 rm -rf base_img/my_stock/priv-app/HeyCast
@@ -238,9 +251,11 @@ rm -rf base_img/my_stock/priv-app/OppoTranslationService
 rm -rf base_img/my_stock/priv-app/OPSynergy
 rm -rf base_img/my_stock/priv-app/OShare
 rm -rf base_img/my_stock/priv-app/PhoneManager
+rm -rf base_img/my_stock/priv-app/SecurityGuard
 rm -rf base_img/my_stock/priv-app/SceneService
 rm -rf base_img/my_stock/priv-app/VideoGallery
 
+rm -rf base_img/my_product/app/clouddpc
 rm -rf base_img/my_product/app/CalendarGoogle
 rm -rf base_img/my_product/app/Facebook-appmanager
 rm -rf base_img/my_product/app/Gemini
@@ -262,6 +277,7 @@ rm -rf base_img/my_product/del-app/*
 rm -rf base_img/my_product/del-app-pre/*
 
 rm -rf base_img/my_product/priv-app/Facebook-installer
+rm -rf base_img/my_product/priv-app/Messages
 rm -rf base_img/my_product/priv-app/Facebook-services
 rm -rf base_img/my_product/priv-app/oat
 rm -rf base_img/my_product/priv-app/FamilyLinkParentalControl # OFC no one is gonna limit my buddy
