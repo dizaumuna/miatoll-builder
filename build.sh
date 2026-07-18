@@ -63,9 +63,9 @@ if [ -n "$LOCAL_INPUT" ]; then
     esac
 else
     log "Downloading given target firmware using aria2c."
-    aria2c -x8 -s8 "$BASE_FW" -o base.zip
+    aria2c -x8 -s8 "$BASE_FW" -o base.zip > /dev/null 
     log_proc "Unzipping target firmware."
-    unzip base.zip payload.bin -d base_images/
+    unzip base.zip payload.bin -d base_images/ > /dev/null 
     rm -f base.zip
 fi
 
@@ -81,17 +81,17 @@ mv base/my_*.img temp/ && mv base/system.img temp/ && mv base/system_ext.img tem
 rm -rf base/*
 mv temp/* base/ && rm -rf temp
 log "Extracting OnePlus partitions [erofs]"
-extract.erofs -x -i base/my_bigball.img -o base_img/
-extract.erofs -x -i base/my_carrier.img -o base_img/
-extract.erofs -x -i base/my_engineering.img -o base_img/
-extract.erofs -x -i base/my_heytap.img -o base_img/
-extract.erofs -x -i base/my_manifest.img -o base_img/
-extract.erofs -x -i base/my_product.img -o base_img/
-extract.erofs -x -i base/my_region.img -o base_img/
-extract.erofs -x -i base/my_stock.img -o base_img/
-extract.erofs -x -i base/system.img -o base_img/
-extract.erofs -x -i base/product.img -o base_img/
-extract.erofs -x -i base/system_ext.img -o base_img/
+extract.erofs -x -i base/my_bigball.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/my_carrier.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/my_engineering.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/my_heytap.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/my_manifest.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/my_product.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/my_region.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/my_stock.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/system.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/product.img -o base_img/ > /dev/null 
+extract.erofs -x -i base/system_ext.img -o base_img/ > /dev/null 
 
 # the output will be like:
 # base_img/system/
@@ -168,7 +168,7 @@ echo "ro.sf.blurs_are_expensive=0" >> base_img/my_manifest/build.prop
 echo "oplus_customize_settings_zoom_wallpaper_enable=1" >> base_img/my_manifest/build.prop
 
 log "Cloning public miatoll vendor, branch ColorOS."
-git clone --depth=1 https://github.com/dizaumuna/vendor.git stock -b COLOROS
+git clone --depth=1 https://github.com/dizaumuna/vendor.git stock -b COLOROS > /dev/null 
 
 SYSTEM_FS_CONFIG="$CONFIG_DIR/system_fs_config"
 SYSTEM_FILE_CONTEXTS="$CONFIG_DIR/system_file_contexts"
@@ -297,12 +297,12 @@ mv base_img/my_* base_img/system/
 log "Fetching fspatch.py by affggh"
 curl -# -L -o fspatch.py "https://raw.githubusercontent.com/affggh/fspatch/refs/heads/main/fspatch.py"
 log_proc "Patching fs_configs"
-python fspatch.py base_img/system base_img/config/system_fs_config
-python fspatch.py base_img/system_ext base_img/config/system_ext_fs_config
-python fspatch.py base_img/product base_img/config/product_fs_config
-python fspatch.py stock/vendor stock/config/vendor_fs_config
+python fspatch.py base_img/system base_img/config/system_fs_config > /dev/null 
+python fspatch.py base_img/system_ext base_img/config/system_ext_fs_config > /dev/null 
+python fspatch.py base_img/product base_img/config/product_fs_config > /dev/null 
+python fspatch.py stock/vendor stock/config/vendor_fs_config > /dev/null 
 log_proc "Patching file_contexts"
-mv fix/context_patch.sh . && chmod a+x context_patch.sh && ./context_patch.sh
+mv fix/context_patch.sh . && chmod a+x context_patch.sh && ./context_patch.sh > /dev/null 
 
 mkdir -p "$OUT_DIR"
 
@@ -333,7 +333,7 @@ for partition in "${PARTITIONS[@]}"; do
     fi
 
     if [ ! -d "$SRC_DIR" ]; then
-        error "Folder didnt exists: $SRC_DIR"
+        error "Folder does not exists: $SRC_DIR"
         exit 1
     fi
     if [ ! -f "$FS_CONFIG" ]; then
@@ -363,7 +363,7 @@ for partition in "${PARTITIONS[@]}"; do
     mke2fs -O ^has_journal -L "$partition" -I 256 -M "/$partition" \
         -m 0 -t ext4 -b "$BLOCK_SIZE" \
         -N "$NUM_INODES" \
-        "$OUT_DIR/${partition}.img" "$IMG_BLOCKS"
+        "$OUT_DIR/${partition}.img" "$IMG_BLOCKS" > /dev/null 
 
     log_proc "e2fsdroid: populating image"
     e2fsdroid -e -T 0 \
@@ -371,7 +371,7 @@ for partition in "${PARTITIONS[@]}"; do
         -C "$FS_CONFIG" \
         -a "/$partition" \
         -f "$SRC_DIR" \
-        "$OUT_DIR/${partition}.img"
+        "$OUT_DIR/${partition}.img" > /dev/null 
 
     log "$partition.img's build is finished: $OUT_DIR/${partition}.img ($(du -h "$OUT_DIR/${partition}.img" | cut -f1))"
 done
@@ -397,7 +397,7 @@ done
 log_proc "lpmake: assembling super.img (${SUPER_SIZE} bytes, group ${GROUP_NAME})"
 lpmake "${LPMAKE_ARGS[@]}" \
     --sparse \
-    --output "$OUT_DIR/super.img"
+    --output "$OUT_DIR/super.img" > /dev/null 
 
 log "super.img's build is finished: $OUT_DIR/super.img ($(du -h "$OUT_DIR/super.img" | cut -f1))"
 
@@ -440,7 +440,7 @@ mv $OUT_DIR/super.img tmp/ && mv updater-script tmp/
 cd tmp
 
 log_proc "Compressing ZIP file"
-zip -r -9 miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip *
+zip -r -9 miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip * > /dev/null 
 
 mv miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip $OUT_DIR
 
