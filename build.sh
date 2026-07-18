@@ -167,7 +167,7 @@ echo "ro.sf.blurs_are_caro=1" >> base_img/my_manifest/build.prop
 echo "ro.sf.blurs_are_expensive=0" >> base_img/my_manifest/build.prop
 echo "oplus_customize_settings_zoom_wallpaper_enable=1" >> base_img/my_manifest/build.prop
 
-log "Cloning public miatoll vendor, branch ColorOS."
+log "Cloning public miatoll vendor, branch ColorOS which is can be used for OxygenOS."
 git clone --depth=1 https://github.com/dizaumuna/vendor.git stock -b COLOROS > /dev/null 
 
 SYSTEM_FS_CONFIG="$CONFIG_DIR/system_fs_config"
@@ -177,7 +177,7 @@ SYSTEM_EXT_FILE_CONTEXTS="$CONFIG_DIR/system_ext_file_contexts"
 VENDOR_FS_CONFIG="stock/config/vendor_fs_config"
 VENDOR_FILE_CONTEXTS="stock/config/vendor_file_contexts"
 
-log "Processing ColorOS setup fix by NezukoTM."
+log "Processing OxygenOS Crash fix by NezukoTM."
 cp -a fix/setup/com.qualcomm.location.apk base_img/system_ext/priv-app/com.qualcomm.location/
 log_proc "Moved file: com.qualcomm.location.apk to system_ext/priv-app/com.qualcomm.location"
 
@@ -206,86 +206,73 @@ cp -a fix/power_delay/* stock/vendor/
 
 log "Debloating system."
 rm -rf base_img/my_stock/app/AIMemory
-rm -rf base_img/my_stock/app/AIUnit
-rm -rf base_img/my_stock/app/AIWidgets
 rm -rf base_img/my_stock/app/AIWriter
 rm -rf base_img/my_stock/app/BeaconLink
-rm -rf base_img/my_stock/app/Browser
-rm -rf base_img/my_stock/app/CarLink
 rm -rf base_img/my_stock/app/ChildrenSpace
-rm -rf base_img/my_stock/app/DigitalKeyFramework
-rm -rf base_img/my_stock/app/DigitalWellBeing
-rm -rf base_img/my_stock/app/Instant
-rm -rf base_img/my_stock/app/InstantService
+rm -rf base_img/my_stock/app/KeKePay
 rm -rf base_img/my_stock/app/OplusOperationManual
 rm -rf base_img/my_stock/app/OplusSecurityKeyboard
-rm -rf base_img/my_stock/app/OWork
-rm -rf base_img/my_stock/app/Pictorial
-rm -rf base_img/my_stock/app/RomUpdate
 rm -rf base_img/my_stock/app/SceneMode
-rm -rf base_img/my_stock/app/SecurePay
-rm -rf base_img/my_stock/app/SecurityGuard
-rm -rf base_img/my_stock/app/ShareScreen
-rm -rf base_img/my_stock/app/ViewTalk
-rm -rf base_img/my_stock/app/TasWallet
+rm -rf base_img/my_stock/app/RomUpdate
+rm -rf base_img/my_stock/app/SoftsimRedteaRoaming
 
 rm -rf base_img/my_stock/del-app/BackupAndRestore
-rm -rf base_img/my_stock/del-app/BrowserVideo
-rm -rf base_img/my_stock/del-app/Calculator2
-rm -rf base_img/my_stock/del-app/Calendar
-rm -rf base_img/my_stock/del-app/FamilyGuard
-rm -rf base_img/my_stock/del-app/FinShellWallet
-rm -rf base_img/my_stock/del-app/Gamecenter
-rm -rf base_img/my_stock/del-app/Health
-rm -rf base_img/my_stock/del-app/KeKeThemeSpace
-rm -rf base_img/my_stock/del-app/KeKeUserCenterMember
-rm -rf base_img/my_stock/del-app/Melody
-rm -rf base_img/my_stock/del-app/Music
+rm -rf base_img/my_stock/del-app/INOnePlusStore
 rm -rf base_img/my_stock/del-app/NewSoundRecorder
-rm -rf base_img/my_stock/del-app/OPBreathMode
-rm -rf base_img/my_stock/del-app/OPCommunity
-rm -rf base_img/my_stock/del-app/OplusDocumentsReader
-rm -rf base_img/my_stock/del-app/OplusEmail
-rm -rf base_img/my_stock/del-app/OplusQuickGame
-rm -rf base_img/my_stock/del-app/OppoCompass2
-rm -rf base_img/my_stock/del-app/OppoNote2
-rm -rf base_img/my_stock/del-app/OPPOStore
-rm -rf base_img/my_stock/del-app/OppoTranslation
-rm -rf base_img/my_stock/del-app/OppoWeather2
+rm -rf base_img/my_stock/del-app/Pictorial
 rm -rf base_img/my_stock/del-app/RiderMode
-rm -rf base_img/my_stock/del-app/Shortcuts
-rm -rf base_img/my_stock/del-app/SoftsimRedteaRoaming
-rm -rf base_img/my_stock/del-app/Tips
-rm -rf base_img/my_stock/del-app/UPTsmService
+rm -rf base_img/my_stock/del-app/OppoTranslation
+rm -rf base_img/my_stock/del-app/OPBreathMode
+rm -rf base_img/my_stock/del-app/OPForum
 
 rm -rf base_img/my_stock/priv-app/BlackListApp
-rm -rf base_img/my_stock/priv-app/DCS
-rm -rf base_img/my_stock/priv-app/Cota
+rm -rf base_img/my_stock/priv-app/GlobalSearch
 rm -rf base_img/my_stock/priv-app/HeyCast
-rm -rf base_img/my_stock/priv-app/HeyTapSpeechAssist
 rm -rf base_img/my_stock/priv-app/KeKeMarket
-rm -rf base_img/my_stock/priv-app/KeKeOplusThemeStore-CN
 rm -rf base_img/my_stock/priv-app/LinktoWindows
-rm -rf base_img/my_stock/priv-app/Metis
 rm -rf base_img/my_stock/priv-app/MyDevices
+rm -rf base_img/my_stock/priv-app/NumberRecognition
 rm -rf base_img/my_stock/priv-app/OplusGames
 rm -rf base_img/my_stock/priv-app/OplusScreenRecorder
+rm -rf base_img/my_stock/priv-app/OppoTranslationService
 rm -rf base_img/my_stock/priv-app/OPSynergy
 rm -rf base_img/my_stock/priv-app/OShare
 rm -rf base_img/my_stock/priv-app/PhoneManager
 rm -rf base_img/my_stock/priv-app/SceneService
-rm -rf base_img/my_stock/priv-app/SOSHelper
-rm -rf base_img/my_stock/priv-app/UMS
 rm -rf base_img/my_stock/priv-app/VideoGallery
-rm -rf base_img/my_stock/priv-app/GlobalSearch
-rm -rf base_img/my_stock/priv-app/OCar
 
-rm -rf base_img/my_product/app/AONService
+rm -rf base_img/my_product/app/CalendarGoogle
+rm -rf base_img/my_product/app/Facebook-appmanager
+rm -rf base_img/my_product/app/Gemini
+rm -rf base_img/my_product/app/Gmail2
+rm -rf base_img/my_product/app/GoogleContacts
+rm -rf base_img/my_product/app/GoogleLens
+rm -rf base_img/my_product/app/GoogleLocationHistory
+rm -rf base_img/my_product/app/GoogleWallet
+rm -rf base_img/my_product/app/GPay3
+rm -rf base_img/my_product/app/Maps
+rm -rf base_img/my_product/app/Meet
 rm -rf base_img/my_product/app/OplusCamera
-# TODO: Add LatinImeGoogle and delete BaiduInput_U_Product
+rm -rf base_img/my_product/app/Photos
+rm -rf base_img/my_product/app/SpeechServicesByGoogle
+rm -rf base_img/my_product/app/YouTube
 rm -rf base_img/my_product/app/talkback
+
 rm -rf base_img/my_product/del-app/*
+rm -rf base_img/my_product/del-app-pre/*
+
+rm -rf base_img/my_product/priv-app/Facebook-installer
+rm -rf base_img/my_product/priv-app/Facebook-services
+rm -rf base_img/my_product/priv-app/oat
+rm -rf base_img/my_product/priv-app/FamilyLinkParentalControl # OFC no one is gonna limit my buddy
+rm -rf base_img/my_product/priv-app/SOSHelper
+rm -rf base_img/my_product/priv-app/Wellbeing
+rm -rf base_img/my_product/priv-app/GoogleVelvet_CTS
+rm -rf base_img/my_product/priv-app/GoogleDialer
+rm -rf base_img/my_product/priv-app/GoogleFiles
 rm -rf base_img/my_product/priv-app/RemoteControl
+rm -rf base_img/my_product/priv-app/SearchSelector
+
 while IFS= read -r -d '' oat_dir; do
     log_proc "Deleted ${oat_dir#./}"
     rm -rf "$oat_dir"
@@ -417,8 +404,8 @@ show_progress(0.020000, 10);
 
 ui_print("**************************************************");
 ui_print("- Device: Miatoll (Note 9S/9Pro/9ProMax/M2s)");
-ui_print("- OS: ColorOS 16");
-ui_print("- Base: OnePlus 12R | PJE110");
+ui_print("- OS: OxygenOS 16");
+ui_print("- Base: OnePlus 12R | CPH2585IN");
 ui_print("- Maintainer: @diza");
 ui_print("- Builder: github-actions");
 ui_print("**************************************************");
