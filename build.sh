@@ -29,30 +29,6 @@ warn () {
     echo "  ! $1"
 }
 
-register_context () {
-    local base="$1"
-    local fs_config="$2"
-    local file_contexts="$3"
-    local context="$4"
-    local target="$5"
-
-    while IFS= read -r f; do
-        local rel="${f#$base/}"
-        local mode=644
-        [ -d "$f" ] && mode=755
-
-        if ! grep -qF "$rel " "$fs_config" 2>/dev/null; then
-            echo "$rel 0 0 $mode" >> "$fs_config"
-        fi
-
-        local esc
-        esc=$(printf '%s' "$rel" | sed -e 's/[][\.^$*+?(){}|]/\\&/g')
-        if ! grep -qE "^/${esc}( |\$)" "$file_contexts" 2>/dev/null; then
-            echo "/$rel $context" >> "$file_contexts"
-        fi
-    done < <(find "$target")
-}
-
 sudo mv binaries/* /usr/local/bin
 
 log "Downloading given target firmware using aria2c."
@@ -286,6 +262,14 @@ rm -rf base_images/my_product/priv-app/RemoteControl
 
 log_proc "Merging my_ partitions to system."
 mv base_img/my_* base_img/system/
+
+log "Fetching fspatch.py by affggh"
+curl -# -L -o fspatch.py "https://raw.githubusercontent.com/affggh/fspatch/refs/heads/main/fspatch.py"
+log_proc "Patching fs_configs"
+python fspatch.py base_img/config/system_fs_config base_img/system
+python fspatch.py base_img/config/system_ext_fs_config base_img/system_ext
+python fspatch.py base_img/config/product_fs_config base_img/product
+python fspatch.py stock/config/vendor_fs_config stock/vendor
 
 mkdir -p "$OUT_DIR"
 
