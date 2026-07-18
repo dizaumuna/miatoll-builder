@@ -438,7 +438,7 @@ EOF
 mv $OUT_DIR/super.img tmp/ && mv updater-script tmp/
 
 cd tmp
-
+mv updater-script META-INF/com/google/android/
 log_proc "Compressing ZIP file"
 zip -r -9 miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip * > /dev/null 
 
