@@ -400,3 +400,51 @@ lpmake "${LPMAKE_ARGS[@]}" \
     --output "$OUT_DIR/super.img"
 
 log "super.img's build is finished: $OUT_DIR/super.img ($(du -h "$OUT_DIR/super.img" | cut -f1))"
+
+log "Creating flashable ZIP file"
+log_proc "Fetching installer.zip"
+curl -# -L -o installer.zip https://github.com/dizaumuna/miatoll-builder/releases/download/ota/installer.zip
+
+mkdir tmp && unzip installer.zip -d tmp/ && rm -rf installer.zip
+
+cat > updater-script << 'EOF'
+assert(getprop("ro.product.device") == "curtana" || getprop("ro.build.product") == "curtana" || 
+       getprop("ro.product.device") == "excalibur" || getprop("ro.build.product") == "excalibur" || 
+       getprop("ro.product.device") == "gram" || getprop("ro.build.product") == "gram" || 
+       getprop("ro.product.device") == "joyeuse" || getprop("ro.build.product") == "joyeuse" || 
+       getprop("ro.product.device") == "miatoll" || getprop("ro.build.product") == "miatoll" || abort("E3004: This package is for device: curtana,excalibur,gram,joyeuse,miatoll; this device is " + getprop("ro.product.device") + "."););
+show_progress(0.020000, 10);
+
+ui_print("**************************************************");
+ui_print("- Device: Miatoll (Note 9S/9Pro/9ProMax/M2s)");
+ui_print("- OS: ColorOS 16");
+ui_print("- Base: OnePlus 12R | PJE110");
+ui_print("- Maintainer: @diza");
+ui_print("- Builder: github-actions");
+ui_print("**************************************************");
+ui_print("- Patching super image unconditionally...");
+package_extract_file("super.img", "/dev/block/bootdevice/by-name/super");
+ui_print("- Patching boot image unconditionally...");
+package_extract_file("boot.img", "/dev/block/bootdevice/by-name/boot");
+show_progress(0.100000, 10);
+ui_print("- Patching dtbo image unconditionally...");
+package_extract_file("dtbo.img", "/dev/block/bootdevice/by-name/dtbo");
+
+ui_print("- Flashing completed. Have a good day.");
+ui_print("- Join @dizasports for more ports and hotfixes!");
+set_progress(1.000000);
+EOF
+
+mv $OUT_DIR/super.img tmp/ && mv updater-script tmp/
+
+cd tmp
+
+log_proc "Compressing ZIP file"
+zip -r -9 * miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip
+
+mv miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip $OUT_DIR
+
+log_proc "Cleaning up"
+cd .. && rm -rf tmp
+
+log "ROM build done. Out ZIP is in $OUT_DIR."
