@@ -261,6 +261,8 @@ python fspatch.py base_img/config/system_fs_config base_img/system
 python fspatch.py base_img/config/system_ext_fs_config base_img/system_ext
 python fspatch.py base_img/config/product_fs_config base_img/product
 python fspatch.py stock/config/vendor_fs_config stock/vendor
+log_proc "Patching file_contexts"
+mv fix/context_patch.sh . && chmod a+x context_patch.sh && ./context_patch.sh
 
 mkdir -p "$OUT_DIR"
 
