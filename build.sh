@@ -227,6 +227,7 @@ rm -rf base_img/my_stock/app/SecurePay
 rm -rf base_img/my_stock/app/SecurityGuard
 rm -rf base_img/my_stock/app/ShareScreen
 rm -rf base_img/my_stock/app/ViewTalk
+rm -rf base_img/my_stock/app/TasWallet
 
 rm -rf base_img/my_stock/del-app/BackupAndRestore
 rm -rf base_img/my_stock/del-app/BrowserVideo
@@ -276,6 +277,8 @@ rm -rf base_img/my_stock/priv-app/SceneService
 rm -rf base_img/my_stock/priv-app/SOSHelper
 rm -rf base_img/my_stock/priv-app/UMS
 rm -rf base_img/my_stock/priv-app/VideoGallery
+rm -rf base_img/my_stock/priv-app/GlobalSearch
+rm -rf base_img/my_stock/priv-app/OCar
 
 rm -rf base_img/my_product/app/AONService
 rm -rf base_img/my_product/app/OplusCamera
@@ -283,6 +286,10 @@ rm -rf base_img/my_product/app/OplusCamera
 rm -rf base_img/my_product/app/talkback
 rm -rf base_img/my_product/del-app/*
 rm -rf base_img/my_product/priv-app/RemoteControl
+while IFS= read -r -d '' oat_dir; do
+    log_proc "Deleted ${oat_dir#./}"
+    rm -rf "$oat_dir"
+done < <(find . -type d -name "oat" -print0)
 
 log_proc "Merging my_ partitions to system."
 mv base_img/my_* base_img/system/
@@ -300,6 +307,16 @@ mv fix/context_patch.sh . && chmod a+x context_patch.sh && ./context_patch.sh
 mkdir -p "$OUT_DIR"
 
 log "Building OS images"
+
+# Per-partition padding %. Small partitions (product) need proportionally
+# more headroom since ext4 metadata overhead (dir blocks, extent trees,
+# reserved GDT blocks) doesn't scale down linearly with raw data size.
+declare -A PADDING_PERCENT=(
+    [system]=4
+    [system_ext]=4
+    [product]=15
+    [vendor]=4
+)
 
 for partition in "${PARTITIONS[@]}"; do
     if [ "$partition" = "vendor" ]; then
@@ -328,8 +345,9 @@ for partition in "${PARTITIONS[@]}"; do
 
     log_proc "Building $partition.img"
 
+    PCT="${PADDING_PERCENT[$partition]:-4}"
     RAW_SIZE=$(du -sb "$SRC_DIR" | cut -f1)
-    PADDED_SIZE=$(( RAW_SIZE + RAW_SIZE * 4 / 100 ))   # %4 padding
+    PADDED_SIZE=$(( RAW_SIZE + RAW_SIZE * PCT / 100 ))   # per-partition padding
     BLOCK_SIZE=4096
     IMG_SIZE=$(( ( (PADDED_SIZE + BLOCK_SIZE - 1) / BLOCK_SIZE ) * BLOCK_SIZE ))
     IMG_BLOCKS=$(( IMG_SIZE / BLOCK_SIZE ))
