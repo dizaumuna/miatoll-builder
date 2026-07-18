@@ -234,7 +234,6 @@ rm -rf base_img/my_stock/del-app/RiderMode
 rm -rf base_img/my_stock/del-app/OppoTranslation
 rm -rf base_img/my_stock/del-app/OPBreathMode
 rm -rf base_img/my_stock/del-app/OPForum
-rm -rf base_img/my_stock/del-app/OppoNote2
 
 rm -rf base_img/my_stock/priv-app/AIUnit
 rm -rf base_img/my_stock/priv-app/KeKeMarket
@@ -259,7 +258,6 @@ rm -rf base_img/my_stock/priv-app/VideoGallery
 rm -rf base_img/my_product/app/clouddpc
 rm -rf base_img/my_product/app/CalendarGoogle
 rm -rf base_img/my_product/app/Facebook-appmanager
-rm -rf base_img/my_product/app/Gemini
 rm -rf base_img/my_product/app/Gmail2
 rm -rf base_img/my_product/app/GoogleContacts
 rm -rf base_img/my_product/app/GoogleLens
