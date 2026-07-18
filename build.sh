@@ -257,10 +257,10 @@ mv base_img/my_* base_img/system/
 log "Fetching fspatch.py by affggh"
 curl -# -L -o fspatch.py "https://raw.githubusercontent.com/affggh/fspatch/refs/heads/main/fspatch.py"
 log_proc "Patching fs_configs"
-python fspatch.py base_img/config/system_fs_config base_img/system
-python fspatch.py base_img/config/system_ext_fs_config base_img/system_ext
-python fspatch.py base_img/config/product_fs_config base_img/product
-python fspatch.py stock/config/vendor_fs_config stock/vendor
+python fspatch.py base_img/system base_img/config/system_fs_config
+python fspatch.py base_img/system_ext base_img/config/system_ext_fs_config
+python fspatch.py base_img/product base_img/config/product_fs_config
+python fspatch.py stock/vendor stock/config/vendor_fs_config
 log_proc "Patching file_contexts"
 mv fix/context_patch.sh . && chmod a+x context_patch.sh && ./context_patch.sh
 
