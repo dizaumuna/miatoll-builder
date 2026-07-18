@@ -302,9 +302,16 @@ mkdir -p "$OUT_DIR"
 log "Building OS images"
 
 for partition in "${PARTITIONS[@]}"; do
-    SRC_DIR="$BASE_DIR/$partition"
-    FS_CONFIG="$CONFIG_DIR/${partition}_fs_config"
-    FILE_CONTEXTS="$CONFIG_DIR/${partition}_file_contexts"
+    if [ "$partition" = "vendor" ]; then
+        # vendor lives under stock/, not base_img/ — separate tree with its own configs
+        SRC_DIR="$SCRIPT_DIR/stock/vendor"
+        FS_CONFIG="$SCRIPT_DIR/stock/config/vendor_fs_config"
+        FILE_CONTEXTS="$SCRIPT_DIR/stock/config/vendor_file_contexts"
+    else
+        SRC_DIR="$BASE_DIR/$partition"
+        FS_CONFIG="$CONFIG_DIR/${partition}_fs_config"
+        FILE_CONTEXTS="$CONFIG_DIR/${partition}_file_contexts"
+    fi
 
     if [ ! -d "$SRC_DIR" ]; then
         error "Folder didnt exists: $SRC_DIR"
@@ -322,19 +329,28 @@ for partition in "${PARTITIONS[@]}"; do
     log_proc "Building $partition.img"
 
     RAW_SIZE=$(du -sb "$SRC_DIR" | cut -f1)
-    PADDED_SIZE=$(( RAW_SIZE + RAW_SIZE * 4 / 100 ))   # %3 padding
+    PADDED_SIZE=$(( RAW_SIZE + RAW_SIZE * 4 / 100 ))   # %4 padding
     BLOCK_SIZE=4096
     IMG_SIZE=$(( ( (PADDED_SIZE + BLOCK_SIZE - 1) / BLOCK_SIZE ) * BLOCK_SIZE ))
+    IMG_BLOCKS=$(( IMG_SIZE / BLOCK_SIZE ))
 
-    make_ext4fs \
-        -T 0 \
+    # Inode estimate: one per file/dir/symlink found, plus 10% headroom.
+    NUM_ENTRIES=$(find "$SRC_DIR" | wc -l)
+    NUM_INODES=$(( NUM_ENTRIES + NUM_ENTRIES / 10 + 32 ))
+
+    log_proc "mke2fs: $IMG_BLOCKS blocks, $NUM_INODES inodes"
+    mke2fs -O ^has_journal -L "$partition" -I 256 -M "/$partition" \
+        -m 0 -t ext4 -b "$BLOCK_SIZE" \
+        -N "$NUM_INODES" \
+        "$OUT_DIR/${partition}.img" "$IMG_BLOCKS"
+
+    log_proc "e2fsdroid: populating image"
+    e2fsdroid -e -T 0 \
         -S "$FILE_CONTEXTS" \
         -C "$FS_CONFIG" \
-        -L "$partition" \
-        -l "$IMG_SIZE" \
-        -a "$partition" \
-        "$OUT_DIR/${partition}.img" \
-        "$SRC_DIR"
+        -a "/$partition" \
+        -f "$SRC_DIR" \
+        "$OUT_DIR/${partition}.img"
 
     log "$partition.img's build is finished: $OUT_DIR/${partition}.img ($(du -h "$OUT_DIR/${partition}.img" | cut -f1))"
 done
