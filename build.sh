@@ -48,17 +48,17 @@ mv base/my_*.img temp/ && mv base/system.img temp/ && mv base/system_ext.img tem
 rm -rf base/*
 mv temp/* base/ && rm -rf temp
 log "Extracting OnePlus partitions [erofs]"
-extract.erofs -x -i -s base/my_bigball.img -o base_img/
-extract.erofs -x -i -s base/my_carrier.img -o base_img/
-extract.erofs -x -i -s base/my_engineering.img -o base_img/
-extract.erofs -x -i -s base/my_heytap.img -o base_img/
-extract.erofs -x -i -s base/my_manifest.img -o base_img/
-extract.erofs -x -i -s base/my_product.img -o base_img/
-extract.erofs -x -i -s base/my_region.img -o base_img/
-extract.erofs -x -i -s base/my_stock.img -o base_img/
-extract.erofs -x -i -s base/system.img -o base_img/
-extract.erofs -x -i -s base/product.img -o base_img/
-extract.erofs -x -i -s base/system_ext.img -o base_img/
+extract.erofs -x -i base/my_bigball.img -o base_img/
+extract.erofs -x -i base/my_carrier.img -o base_img/
+extract.erofs -x -i base/my_engineering.img -o base_img/
+extract.erofs -x -i base/my_heytap.img -o base_img/
+extract.erofs -x -i base/my_manifest.img -o base_img/
+extract.erofs -x -i base/my_product.img -o base_img/
+extract.erofs -x -i base/my_region.img -o base_img/
+extract.erofs -x -i base/my_stock.img -o base_img/
+extract.erofs -x -i base/system.img -o base_img/
+extract.erofs -x -i base/product.img -o base_img/
+extract.erofs -x -i base/system_ext.img -o base_img/
 
 # the output will be like:
 # base_img/system/
