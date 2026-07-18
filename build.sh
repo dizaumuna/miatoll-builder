@@ -35,7 +35,7 @@ warn () {
 #   ./build.sh path/to/fw.zip  -> skips download, unzips local zip, then unpacks
 #   ./build.sh path/to/payload.bin -> skips download AND unzip, unpacks directly
 LOCAL_INPUT="${1:-}"
-
+chmod a+x binaries/*
 sudo mv binaries/* /usr/local/bin
 
 mkdir -p base_images
