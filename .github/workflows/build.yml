@@ -48,9 +48,6 @@ jobs:
         env:
           BASE_FW: ${{ env.BASE_FW }}
 
-      - name: List output images
-        run: ls -lh out/
-
       - name: Upload images as artifact
         uses: actions/upload-artifact@v4
         with:
