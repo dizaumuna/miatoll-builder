@@ -146,18 +146,13 @@ VENDOR_FILE_CONTEXTS="stock/config/vendor_file_contexts"
 
 log "Processing ColorOS setup fix by NezukoTM."
 cp -a fix/setup/com.qualcomm.location.apk base_img/system_ext/priv-app/com.qualcomm.location/
-register_context "$BASE_DIR/system_ext" "$SYSTEM_EXT_FS_CONFIG" "$SYSTEM_EXT_FILE_CONTEXTS" u:object_r:system_ext_file:s0 base_img/system_ext/priv-app/com.qualcomm.location
 log_proc "Moved file: com.qualcomm.location.apk to system_ext/priv-app/com.qualcomm.location"
 
 cp -a fix/setup/apex/com.android.* base_img/system/system/apex/
-for item in fix/setup/apex/com.android.*; do
-    register_context "$BASE_DIR/system" "$SYSTEM_FS_CONFIG" "$SYSTEM_FILE_CONTEXTS" u:object_r:system_file:s0 "base_img/system/system/apex/$(basename "$item")"
-done
 log_proc "Moved file: fix/setup/apex/com.android.* to system/apex"
 
 log "Processing VNDK patch."
 cp -a fix/apex/com.android.vndk.v30.apex base_img/system_ext/apex/
-register_context "$BASE_DIR/system_ext" "$SYSTEM_EXT_FS_CONFIG" "$SYSTEM_EXT_FILE_CONTEXTS" u:object_r:system_ext_file:s0 base_img/system_ext/apex/com.android.vndk.v30.apex
 log_proc "Moved file: com.android.vndk.v30.apex to system_ext/apex"
 rm -rf base_img/system_ext/apex/com.android.vndk.v34.apex
 log_proc "Deleted useless file: com.android.vndk.v34.apex"
@@ -170,15 +165,11 @@ rm -rf base_img/system_ext/lib/liboplusstagefright.so
 
 log "Processing BPF patch by NezukoTM."
 cp -a fix/bpf/* base_img/system/system/etc/bpf/
-register_context "$BASE_DIR/system" "$SYSTEM_FS_CONFIG" "$SYSTEM_FILE_CONTEXTS" u:object_r:system_file:s0 base_img/system/system/etc/bpf
 log_proc "Moved file ipv6_offload.o to system/etc/bpf"
 log_proc "Moved file oplus-netd.o to system/etc/bpf"
 
 log "Processing power button delay fix by getthefckoutofheree."
 cp -a fix/power_delay/* stock/vendor/
-for d in fix/power_delay/*; do
-    register_context stock/vendor "$VENDOR_FS_CONFIG" "$VENDOR_FILE_CONTEXTS" u:object_r:vendor_file:s0 "stock/vendor/$(basename "$d")"
-done
 
 log "Debloating system."
 rm -rf base_images/my_stock/app/AIMemory
