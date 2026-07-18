@@ -29,19 +29,52 @@ warn () {
     echo "  ! $1"
 }
 
+# -- input handling
+# Usage:
+#   ./build.sh                 -> downloads $BASE_FW, unpacks it (default CI behavior)
+#   ./build.sh path/to/fw.zip  -> skips download, unzips local zip, then unpacks
+#   ./build.sh path/to/payload.bin -> skips download AND unzip, unpacks directly
+LOCAL_INPUT="${1:-}"
+
 sudo mv binaries/* /usr/local/bin
 
-log "Downloading given target firmware using aria2c."
-aria2c -x8 -s8 "$BASE_FW" -o base.zip
-log_proc "Unzipping target firmware."
-unzip base.zip payload.bin -d base_images/
+mkdir -p base_images
+
+if [ -n "$LOCAL_INPUT" ]; then
+    if [ ! -f "$LOCAL_INPUT" ]; then
+        error "Given local firmware path not found: $LOCAL_INPUT"
+        exit 1
+    fi
+
+    case "$LOCAL_INPUT" in
+        *.bin)
+            log "Local payload.bin given ($LOCAL_INPUT), skipping download and unzip."
+            cp "$LOCAL_INPUT" base_images/payload.bin
+            ;;
+        *.zip)
+            log "Local firmware zip given ($LOCAL_INPUT), skipping download."
+            log_proc "Unzipping target firmware."
+            unzip -o "$LOCAL_INPUT" payload.bin -d base_images/
+            ;;
+        *)
+            error "Unrecognized local input, expected .zip or .bin: $LOCAL_INPUT"
+            exit 1
+            ;;
+    esac
+else
+    log "Downloading given target firmware using aria2c."
+    aria2c -x8 -s8 "$BASE_FW" -o base.zip
+    log_proc "Unzipping target firmware."
+    unzip base.zip payload.bin -d base_images/
+    rm -f base.zip
+fi
 
 # run pdg
 log "Extracting images from bin file."
 payload-dumper-go -o base base_images/payload.bin > /dev/null
 
 log_proc "Cleaning up before continuining."
-rm -rf base_images base.zip
+rm -rf base_images
 
 mkdir temp
 mv base/my_*.img temp/ && mv base/system.img temp/ && mv base/system_ext.img temp/ && mv base/product.img temp/
@@ -172,84 +205,84 @@ log "Processing power button delay fix by getthefckoutofheree."
 cp -a fix/power_delay/* stock/vendor/
 
 log "Debloating system."
-rm -rf base_images/my_stock/app/AIMemory
-rm -rf base_images/my_stock/app/AIUnit
-rm -rf base_images/my_stock/app/AIWidgets
-rm -rf base_images/my_stock/app/AIWriter
-rm -rf base_images/my_stock/app/BeaconLink
-rm -rf base_images/my_stock/app/Browser
-rm -rf base_images/my_stock/app/CarLink
-rm -rf base_images/my_stock/app/ChildrenSpace
-rm -rf base_images/my_stock/app/DigitalKeyFramework
-rm -rf base_images/my_stock/app/DigitalWellBeing
-rm -rf base_images/my_stock/app/Instant
-rm -rf base_images/my_stock/app/InstantService
-rm -rf base_images/my_stock/app/OplusOperationManual
-rm -rf base_images/my_stock/app/OplusSecurityKeyboard
-rm -rf base_images/my_stock/app/OWork
-rm -rf base_images/my_stock/app/Pictorial
-rm -rf base_images/my_stock/app/RomUpdate
-rm -rf base_images/my_stock/app/SceneMode
-rm -rf base_images/my_stock/app/SecurePay
-rm -rf base_images/my_stock/app/SecurityGuard
-rm -rf base_images/my_stock/app/ShareScreen
-rm -rf base_images/my_stock/app/ViewTalk
+rm -rf base_img/my_stock/app/AIMemory
+rm -rf base_img/my_stock/app/AIUnit
+rm -rf base_img/my_stock/app/AIWidgets
+rm -rf base_img/my_stock/app/AIWriter
+rm -rf base_img/my_stock/app/BeaconLink
+rm -rf base_img/my_stock/app/Browser
+rm -rf base_img/my_stock/app/CarLink
+rm -rf base_img/my_stock/app/ChildrenSpace
+rm -rf base_img/my_stock/app/DigitalKeyFramework
+rm -rf base_img/my_stock/app/DigitalWellBeing
+rm -rf base_img/my_stock/app/Instant
+rm -rf base_img/my_stock/app/InstantService
+rm -rf base_img/my_stock/app/OplusOperationManual
+rm -rf base_img/my_stock/app/OplusSecurityKeyboard
+rm -rf base_img/my_stock/app/OWork
+rm -rf base_img/my_stock/app/Pictorial
+rm -rf base_img/my_stock/app/RomUpdate
+rm -rf base_img/my_stock/app/SceneMode
+rm -rf base_img/my_stock/app/SecurePay
+rm -rf base_img/my_stock/app/SecurityGuard
+rm -rf base_img/my_stock/app/ShareScreen
+rm -rf base_img/my_stock/app/ViewTalk
 
-rm -rf base_images/my_stock/del-app/BackupAndRestore
-rm -rf base_images/my_stock/del-app/BrowserVideo
-rm -rf base_images/my_stock/del-app/Calculator2
-rm -rf base_images/my_stock/del-app/Calendar
-rm -rf base_images/my_stock/del-app/FamilyGuard
-rm -rf base_images/my_stock/del-app/FinShellWallet
-rm -rf base_images/my_stock/del-app/Gamecenter
-rm -rf base_images/my_stock/del-app/Health
-rm -rf base_images/my_stock/del-app/KeKeThemeSpace
-rm -rf base_images/my_stock/del-app/KeKeUserCenterMember
-rm -rf base_images/my_stock/del-app/Melody
-rm -rf base_images/my_stock/del-app/Music
-rm -rf base_images/my_stock/del-app/NewSoundRecorder
-rm -rf base_images/my_stock/del-app/OPBreathMode
-rm -rf base_images/my_stock/del-app/OPCommunity
-rm -rf base_images/my_stock/del-app/OplusDocumentsReader
-rm -rf base_images/my_stock/del-app/OplusEmail
-rm -rf base_images/my_stock/del-app/OplusQuickGame
-rm -rf base_images/my_stock/del-app/OppoCompass2
-rm -rf base_images/my_stock/del-app/OppoNote2
-rm -rf base_images/my_stock/del-app/OPPOStore
-rm -rf base_images/my_stock/del-app/OppoTranslation
-rm -rf base_images/my_stock/del-app/OppoWeather2
-rm -rf base_images/my_stock/del-app/RiderMode
-rm -rf base_images/my_stock/del-app/Shortcuts
-rm -rf base_images/my_stock/del-app/SoftsimRedteaRoaming
-rm -rf base_images/my_stock/del-app/Tips
-rm -rf base_images/my_stock/del-app/UPTsmService
+rm -rf base_img/my_stock/del-app/BackupAndRestore
+rm -rf base_img/my_stock/del-app/BrowserVideo
+rm -rf base_img/my_stock/del-app/Calculator2
+rm -rf base_img/my_stock/del-app/Calendar
+rm -rf base_img/my_stock/del-app/FamilyGuard
+rm -rf base_img/my_stock/del-app/FinShellWallet
+rm -rf base_img/my_stock/del-app/Gamecenter
+rm -rf base_img/my_stock/del-app/Health
+rm -rf base_img/my_stock/del-app/KeKeThemeSpace
+rm -rf base_img/my_stock/del-app/KeKeUserCenterMember
+rm -rf base_img/my_stock/del-app/Melody
+rm -rf base_img/my_stock/del-app/Music
+rm -rf base_img/my_stock/del-app/NewSoundRecorder
+rm -rf base_img/my_stock/del-app/OPBreathMode
+rm -rf base_img/my_stock/del-app/OPCommunity
+rm -rf base_img/my_stock/del-app/OplusDocumentsReader
+rm -rf base_img/my_stock/del-app/OplusEmail
+rm -rf base_img/my_stock/del-app/OplusQuickGame
+rm -rf base_img/my_stock/del-app/OppoCompass2
+rm -rf base_img/my_stock/del-app/OppoNote2
+rm -rf base_img/my_stock/del-app/OPPOStore
+rm -rf base_img/my_stock/del-app/OppoTranslation
+rm -rf base_img/my_stock/del-app/OppoWeather2
+rm -rf base_img/my_stock/del-app/RiderMode
+rm -rf base_img/my_stock/del-app/Shortcuts
+rm -rf base_img/my_stock/del-app/SoftsimRedteaRoaming
+rm -rf base_img/my_stock/del-app/Tips
+rm -rf base_img/my_stock/del-app/UPTsmService
 
-rm -rf base_images/my_stock/priv-app/BlackListApp
-rm -rf base_images/my_stock/priv-app/DCS
-rm -rf base_images/my_stock/priv-app/Cota
-rm -rf base_images/my_stock/priv-app/HeyCast
-rm -rf base_images/my_stock/priv-app/HeyTapSpeechAssist
-rm -rf base_images/my_stock/priv-app/KeKeMarket
-rm -rf base_images/my_stock/priv-app/KeKeOplusThemeStore-CN
-rm -rf base_images/my_stock/priv-app/LinktoWindows
-rm -rf base_images/my_stock/priv-app/Metis
-rm -rf base_images/my_stock/priv-app/MyDevices
-rm -rf base_images/my_stock/priv-app/OplusGames
-rm -rf base_images/my_stock/priv-app/OplusScreenRecorder
-rm -rf base_images/my_stock/priv-app/OPSynergy
-rm -rf base_images/my_stock/priv-app/OShare
-rm -rf base_images/my_stock/priv-app/PhoneManager
-rm -rf base_images/my_stock/priv-app/SceneService
-rm -rf base_images/my_stock/priv-app/SOSHelper
-rm -rf base_images/my_stock/priv-app/UMS
-rm -rf base_images/my_stock/priv-app/VideoGallery
+rm -rf base_img/my_stock/priv-app/BlackListApp
+rm -rf base_img/my_stock/priv-app/DCS
+rm -rf base_img/my_stock/priv-app/Cota
+rm -rf base_img/my_stock/priv-app/HeyCast
+rm -rf base_img/my_stock/priv-app/HeyTapSpeechAssist
+rm -rf base_img/my_stock/priv-app/KeKeMarket
+rm -rf base_img/my_stock/priv-app/KeKeOplusThemeStore-CN
+rm -rf base_img/my_stock/priv-app/LinktoWindows
+rm -rf base_img/my_stock/priv-app/Metis
+rm -rf base_img/my_stock/priv-app/MyDevices
+rm -rf base_img/my_stock/priv-app/OplusGames
+rm -rf base_img/my_stock/priv-app/OplusScreenRecorder
+rm -rf base_img/my_stock/priv-app/OPSynergy
+rm -rf base_img/my_stock/priv-app/OShare
+rm -rf base_img/my_stock/priv-app/PhoneManager
+rm -rf base_img/my_stock/priv-app/SceneService
+rm -rf base_img/my_stock/priv-app/SOSHelper
+rm -rf base_img/my_stock/priv-app/UMS
+rm -rf base_img/my_stock/priv-app/VideoGallery
 
-rm -rf base_images/my_product/app/AONService
-rm -rf base_images/my_product/app/OplusCamera
+rm -rf base_img/my_product/app/AONService
+rm -rf base_img/my_product/app/OplusCamera
 # TODO: Add LatinImeGoogle and delete BaiduInput_U_Product
-rm -rf base_images/my_product/app/talkback
-rm -rf base_images/my_product/del-app/*
-rm -rf base_images/my_product/priv-app/RemoteControl
+rm -rf base_img/my_product/app/talkback
+rm -rf base_img/my_product/del-app/*
+rm -rf base_img/my_product/priv-app/RemoteControl
 
 log_proc "Merging my_ partitions to system."
 mv base_img/my_* base_img/system/
