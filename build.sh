@@ -283,6 +283,9 @@ rm -rf base_images/my_product/app/talkback
 rm -rf base_images/my_product/del-app/*
 rm -rf base_images/my_product/priv-app/RemoteControl
 
+log_proc "Merging my_ partitions to system."
+mv base_img/my_* base_img/system/
+
 mkdir -p "$OUT_DIR"
 
 log "Building OS images"
