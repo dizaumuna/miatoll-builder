@@ -234,6 +234,7 @@ rm -rf base_img/my_stock/del-app/RiderMode
 rm -rf base_img/my_stock/del-app/OppoTranslation
 rm -rf base_img/my_stock/del-app/OPBreathMode
 rm -rf base_img/my_stock/del-app/OPForum
+rm -rf base_img/my_stock/del-app/OppoNote2
 
 rm -rf base_img/my_stock/priv-app/AIUnit
 rm -rf base_img/my_stock/priv-app/KeKeMarket
