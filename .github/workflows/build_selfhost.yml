@@ -1,0 +1,53 @@
+name: Build / self hosted
+on:
+  workflow_dispatch:
+    inputs:
+      BASE_FW:
+        description: "The firmware URL of OnePlus (used only if source = download)."
+        required: false
+        type: string
+      FW_SOURCE:
+        description: "Firmware source"
+        required: true
+        type: choice
+        options:
+          - download
+          - local
+        default: download
+      LOCAL_FW_PATH:
+        description: "Path on the runner to a local .zip or payload.bin (used only if source = local)"
+        required: false
+        type: string
+
+env:
+  BASE_FW: ${{ inputs.BASE_FW || secrets.BASE_FW }}
+
+jobs:
+  build:
+    runs-on: self-hosted
+    timeout-minutes: 180
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run build script
+        run: |
+          if [ "${{ inputs.FW_SOURCE }}" = "local" ]; then
+            if [ -z "${{ inputs.LOCAL_FW_PATH }}" ]; then
+              echo "FW_SOURCE is local but LOCAL_FW_PATH is empty!" >&2
+              exit 1
+            fi
+            ./build.sh "${{ inputs.LOCAL_FW_PATH }}"
+          else
+            ./build.sh
+          fi
+        env:
+          BASE_FW: ${{ env.BASE_FW }}
+
+      - name: Upload images as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: miatoll-coloros
+          path: out/miatoll_cn-ota_full-cos-16.0-userdebug_fw.zip
+          retention-days: 30
+          if-no-files-found: error
