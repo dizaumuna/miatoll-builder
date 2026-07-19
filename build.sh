@@ -213,6 +213,9 @@ log_proc "Merging my_ partitions to system."
 mv base_img/my_* base_img/system/
 
 log "Debloating system."
+
+log "DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG !!!"
+ls base_img/system/my_stock/del-app && echo "BEFORE"
 rm -rf base_img/system/my_stock/app/ambientalert
 rm -rf base_img/system/my_stock/app/FloatAssistant
 rm -rf base_img/system/my_stock/app/CloudService
@@ -290,6 +293,8 @@ rm -rf base_img/system/my_product/priv-app/GoogleDialer
 rm -rf base_img/system/my_product/priv-app/GoogleFiles
 rm -rf base_img/system/my_product/priv-app/RemoteControl
 rm -rf base_img/system/my_product/priv-app/SearchSelector
+ls base_img/system/my_stock/del-app && echo "AFTER"
+log "DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG !!!"
 
 log "Fetching fspatch.py by affggh"
 curl -# -L -o fspatch.py "https://raw.githubusercontent.com/affggh/fspatch/refs/heads/main/fspatch.py"
