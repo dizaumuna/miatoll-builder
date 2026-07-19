@@ -258,6 +258,8 @@ rm -rf base_img/system/my_stock/priv-app/dmp
 rm -rf base_img/system/my_stock/priv-app/SandboxRuntime
 
 rm -rf base_img/system/my_product/app/CalendarGoogle
+rm -rf base_img/system/my_product/app/AudioEffectCenter
+rm -rf base_img/system/my_product/app/SwitchAccess
 rm -rf base_img/system/my_product/app/Chrome64
 rm -rf base_img/system/my_product/app/clouddpc
 rm -rf base_img/system/my_product/app/Facebook-appmanager
@@ -287,7 +289,9 @@ rm -rf base_img/system/my_product/priv-app/SOSHelper
 rm -rf base_img/system/my_product/priv-app/GoogleDialer
 rm -rf base_img/system/my_product/priv-app/GoogleFiles
 rm -rf base_img/system/my_product/priv-app/Messages
-# rm -rf base_img/system/my_product/priv-app/Wellbeing
+rm -rf base_img/system/my_product/priv-app/SearchSelector
+rm -rf base_img/system/my_product/priv-app/GoogleRestore
+rm -rf base_img/system/my_product/priv-app/Wellbeing
 while IFS= read -r -d '' oat_dir; do
     log_proc "Deleted ${oat_dir#./}"
     rm -rf "$oat_dir"
