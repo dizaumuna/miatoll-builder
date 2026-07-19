@@ -228,6 +228,7 @@ rm -rf base_img/system/my_stock/app/OppoCompass2
 rm -rf base_img/system/my_stock/app/RomUpdate
 rm -rf base_img/system/my_stock/app/SceneMode
 rm -rf base_img/system/my_stock/app/SecurePay
+rm -rf base_img/system/my_stock/app/SmartSideBar
 
 rm -rf base_img/system/my_stock/del-app/BackupAndRestore
 rm -rf base_img/system/my_stock/del-app/INOnePlusStore
@@ -256,6 +257,9 @@ rm -rf base_img/system/my_stock/priv-app/OShare
 rm -rf base_img/system/my_stock/priv-app/PhoneManager
 rm -rf base_img/system/my_stock/priv-app/SecurityGuard
 rm -rf base_img/system/my_stock/priv-app/VideoGallery
+rm -rf base_img/system/my_stock/priv-app/Contacts
+rm -rf base_img/system/my_stock/priv-app/dmp
+rm -rf base_img/system/my_stock/priv-app/SandboxRuntime
 
 rm -rf base_img/system/my_product/app/CalendarGoogle
 rm -rf base_img/system/my_product/app/Chrome64
@@ -284,8 +288,10 @@ rm -rf base_img/system/my_product/priv-app/oat
 rm -rf base_img/system/my_product/priv-app/GoogleVelvet_CTS
 rm -rf base_img/system/my_product/priv-app/RemoteControl
 rm -rf base_img/system/my_product/priv-app/SOSHelper
-#rm -rf base_img/system/my_product/priv-app/GoogleDialer
+rm -rf base_img/system/my_product/priv-app/GoogleDialer
 rm -rf base_img/system/my_product/priv-app/GoogleFiles
+rm -rf base_img/system/my_product/priv-app/Messages
+# rm -rf base_img/system/my_product/priv-app/Wellbeing
 
 log "Fetching fspatch.py by affggh"
 curl -# -L -o fspatch.py "https://raw.githubusercontent.com/affggh/fspatch/refs/heads/main/fspatch.py"
