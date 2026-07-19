@@ -316,10 +316,10 @@ log "Building OS images"
 # more headroom since ext4 metadata overhead (dir blocks, extent trees,
 # reserved GDT blocks) doesn't scale down linearly with raw data size.
 declare -A PADDING_PERCENT=(
-    [system]=4
-    [system_ext]=4
+    [system]=3
+    [system_ext]=3
     [product]=15
-    [vendor]=4
+    [vendor]=3
 )
 
 declare -A PART_SIZES
