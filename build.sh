@@ -306,8 +306,10 @@ python fspatch.py base_img/system_ext base_img/config/system_ext_fs_config > /de
 python fspatch.py base_img/product base_img/config/product_fs_config > /dev/null 
 python fspatch.py stock/vendor stock/config/vendor_fs_config > /dev/null 
 log_proc "Patching file_contexts"
-mv fix/context_patch.sh . && chmod a+x context_patch.sh && ./context_patch.sh > /dev/null 
-
+mv fix/context_patch.py . && chmod a+x context_patch.py && python context_patch.py base_img/system base_img/config/system_file_contexts
+python context_patch.py base_img/system_ext base_img/config/system_ext_file_contexts
+python context_patch.py base_img/product base_img/config/product_file_contexts
+python context_patch.py stock/vendor stock/config/vendor_file_contexts
 mkdir -p "$OUT_DIR"
 
 log "Building OS images"
