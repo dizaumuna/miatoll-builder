@@ -276,6 +276,7 @@ rm -rf base_img/system/my_product/app/Photos
 rm -rf base_img/system/my_product/app/SpeechServicesByGoogle
 rm -rf base_img/system/my_product/app/YouTube
 rm -rf base_img/system/my_product/app/talkback
+rm -rf base_img/system/my_product/app/TriChromeLibrary64
 
 rm -rf base_img/system/my_product/del-app/*
 rm -rf base_img/system/my_product/del-app-pre/*
