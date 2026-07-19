@@ -229,6 +229,7 @@ rm -rf base_img/system/my_stock/app/RomUpdate
 rm -rf base_img/system/my_stock/app/SceneMode
 rm -rf base_img/system/my_stock/app/SecurePay
 rm -rf base_img/system/my_stock/app/SmartSideBar
+rm -rf base_img/system/my_stock/app/AssistantScreen
 
 rm -rf base_img/system/my_stock/del-app/BackupAndRestore
 rm -rf base_img/system/my_stock/del-app/INOnePlusStore
