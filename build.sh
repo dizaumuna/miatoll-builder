@@ -100,7 +100,7 @@ extract.erofs -x -i base/system_ext.img -o base_img/ > /dev/null
 log_proc "Cleaning up before continuining."
 rm -rf base/*
 
-log "Replacing prop ro.product.first_api_level=34 with #ro.product.first_api_level=30."
+log "Replacing prop ro.product.first_api_level=34 with #ro.product.first_api_level=34."
 sed -i '/^ro\.product\.first_api_level/s/^/#/' base_img/my_manifest/build.prop
 sed -i '/^ro\.build\.version\.oplusrom\.display=/ s/$/ || by diza/' base_img/my_manifest/build.prop
 
@@ -187,8 +187,8 @@ log_proc "Moved file: fix/setup/apex/com.android.* to system/apex"
 log "Processing VNDK patch."
 cp -a fix/apex/com.android.vndk.v30.apex base_img/system_ext/apex/
 log_proc "Moved file: com.android.vndk.v30.apex to system_ext/apex"
-rm -rf base_img/system_ext/apex/com.android.vndk.v34.apex
-log_proc "Deleted useless file: com.android.vndk.v34.apex"
+rm -rf base_img/system_ext/apex/com.android.vndk.v33.apex
+log_proc "Deleted useless file: com.android.vndk.v33.apex"
 
 log "Processing YouTube patch."
 rm -rf base_img/system_ext/lib64/libavenhancements.so
