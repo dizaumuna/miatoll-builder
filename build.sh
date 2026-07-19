@@ -204,11 +204,6 @@ log_proc "Moved file oplus-netd.o to system/etc/bpf"
 log "Processing power button delay fix by getthefckoutofheree."
 cp -a fix/power_delay/* stock/vendor/
 
-while IFS= read -r -d '' oat_dir; do
-    log_proc "Deleted ${oat_dir#./}"
-    rm -rf "$oat_dir"
-done < <(find . -type d -name "oat" -print0)
-
 log_proc "Merging my_ partitions to system."
 mv base_img/my_* base_img/system/
 
@@ -293,6 +288,10 @@ rm -rf base_img/system/my_product/priv-app/GoogleDialer
 rm -rf base_img/system/my_product/priv-app/GoogleFiles
 rm -rf base_img/system/my_product/priv-app/Messages
 # rm -rf base_img/system/my_product/priv-app/Wellbeing
+while IFS= read -r -d '' oat_dir; do
+    log_proc "Deleted ${oat_dir#./}"
+    rm -rf "$oat_dir"
+done < <(find . -type d -name "oat" -print0)
 
 log "Fetching fspatch.py by affggh"
 curl -# -L -o fspatch.py "https://raw.githubusercontent.com/affggh/fspatch/refs/heads/main/fspatch.py"
