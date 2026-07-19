@@ -213,63 +213,58 @@ log_proc "Merging my_ partitions to system."
 mv base_img/my_* base_img/system/
 
 log "Debloating system."
-
-log "DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG !!!"
-ls base_img/system/my_stock/del-app && echo "BEFORE"
-rm -rf base_img/system/my_stock/app/ambientalert
-rm -rf base_img/system/my_stock/app/FloatAssistant
-rm -rf base_img/system/my_stock/app/CloudService
 rm -rf base_img/system/my_stock/app/AIMemory
 rm -rf base_img/system/my_stock/app/AIWriter
+rm -rf base_img/system/my_stock/app/ambientalert
+rm -rf base_img/system/my_stock/app/BeaconLink
 rm -rf base_img/system/my_stock/app/Browser
 rm -rf base_img/system/my_stock/app/Calculator2
-rm -rf base_img/system/my_stock/app/BeaconLink
 rm -rf base_img/system/my_stock/app/ChildrenSpace
 rm -rf base_img/system/my_stock/app/Instant
-rm -rf base_img/system/my_stock/app/OppoCompass2
 rm -rf base_img/system/my_stock/app/KeKePay
 rm -rf base_img/system/my_stock/app/OplusOperationManual
 rm -rf base_img/system/my_stock/app/OplusSecurityKeyboard
-rm -rf base_img/system/my_stock/app/SceneMode
+rm -rf base_img/system/my_stock/app/OppoCompass2
 rm -rf base_img/system/my_stock/app/RomUpdate
+rm -rf base_img/system/my_stock/app/SceneMode
 rm -rf base_img/system/my_stock/app/SecurePay
-rm -rf base_img/system/my_stock/app/WifiBackupRestore
-rm -rf base_img/system/my_stock/app/SoftsimRedteaRoaming
+
 rm -rf base_img/system/my_stock/del-app/BackupAndRestore
 rm -rf base_img/system/my_stock/del-app/INOnePlusStore
 rm -rf base_img/system/my_stock/del-app/NewSoundRecorder
-rm -rf base_img/system/my_stock/del-app/Pictorial
-rm -rf base_img/system/my_stock/del-app/RiderMode
-rm -rf base_img/system/my_stock/del-app/OppoTranslation
 rm -rf base_img/system/my_stock/del-app/OPBreathMode
 rm -rf base_img/system/my_stock/del-app/OPForum
 rm -rf base_img/system/my_stock/del-app/OppoNote2
+rm -rf base_img/system/my_stock/del-app/OppoTranslation
+rm -rf base_img/system/my_stock/del-app/Pictorial
+rm -rf base_img/system/my_stock/del-app/RiderMode
+
 rm -rf base_img/system/my_stock/priv-app/AIUnit
+rm -rf base_img/system/my_stock/priv-app/BlackListApp
+rm -rf base_img/system/my_stock/priv-app/Cota
+rm -rf base_img/system/my_stock/priv-app/HeyCast
+rm -rf base_img/system/my_stock/priv-app/GlobalSearch
 rm -rf base_img/system/my_stock/priv-app/KeKeMarket
 rm -rf base_img/system/my_stock/priv-app/KeKeThemeSpace
-rm -rf base_img/system/my_stock/priv-app/BlackListApp
-rm -rf base_img/system/my_stock/priv-app/GlobalSearch
-rm -rf base_img/system/my_stock/priv-app/HeyCast
-rm -rf base_img/system/my_stock/priv-app/KeKeMarket
 rm -rf base_img/system/my_stock/priv-app/LinktoWindows
+rm -rf base_img/system/my_stock/priv-app/Metis
 rm -rf base_img/system/my_stock/priv-app/MyDevices
-rm -rf base_img/system/my_stock/priv-app/NumberRecognition
 rm -rf base_img/system/my_stock/priv-app/OplusGames
 rm -rf base_img/system/my_stock/priv-app/OplusScreenRecorder
-rm -rf base_img/system/my_stock/priv-app/OppoTranslationService
 rm -rf base_img/system/my_stock/priv-app/OPSynergy
 rm -rf base_img/system/my_stock/priv-app/OShare
 rm -rf base_img/system/my_stock/priv-app/PhoneManager
 rm -rf base_img/system/my_stock/priv-app/SecurityGuard
-rm -rf base_img/system/my_stock/priv-app/SceneService
 rm -rf base_img/system/my_stock/priv-app/VideoGallery
-rm -rf base_img/system/my_product/app/clouddpc
+
 rm -rf base_img/system/my_product/app/CalendarGoogle
+rm -rf base_img/system/my_product/app/Chrome64
+rm -rf base_img/system/my_product/app/clouddpc
 rm -rf base_img/system/my_product/app/Facebook-appmanager
+rm -rf base_img/system/my_product/app/Gemini
 rm -rf base_img/system/my_product/app/Gmail2
 rm -rf base_img/system/my_product/app/GoogleContacts
 rm -rf base_img/system/my_product/app/GoogleLens
-rm -rf base_img/system/my_product/app/GoogleLocationHistory
 rm -rf base_img/system/my_product/app/GoogleWallet
 rm -rf base_img/system/my_product/app/GPay3
 rm -rf base_img/system/my_product/app/Maps
@@ -279,22 +274,18 @@ rm -rf base_img/system/my_product/app/Photos
 rm -rf base_img/system/my_product/app/SpeechServicesByGoogle
 rm -rf base_img/system/my_product/app/YouTube
 rm -rf base_img/system/my_product/app/talkback
+
 rm -rf base_img/system/my_product/del-app/*
 rm -rf base_img/system/my_product/del-app-pre/*
+
 rm -rf base_img/system/my_product/priv-app/Facebook-installer
-rm -rf base_img/system/my_product/priv-app/Messages
 rm -rf base_img/system/my_product/priv-app/Facebook-services
 rm -rf base_img/system/my_product/priv-app/oat
-rm -rf base_img/system/my_product/priv-app/FamilyLinkParentalControl # OFC no one is gonna limit my buddy
-rm -rf base_img/system/my_product/priv-app/SOSHelper
-rm -rf base_img/system/my_product/priv-app/Wellbeing
 rm -rf base_img/system/my_product/priv-app/GoogleVelvet_CTS
-rm -rf base_img/system/my_product/priv-app/GoogleDialer
-rm -rf base_img/system/my_product/priv-app/GoogleFiles
 rm -rf base_img/system/my_product/priv-app/RemoteControl
-rm -rf base_img/system/my_product/priv-app/SearchSelector
-ls base_img/system/my_stock/del-app && echo "AFTER"
-log "DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG !!!"
+rm -rf base_img/system/my_product/priv-app/SOSHelper
+#rm -rf base_img/system/my_product/priv-app/GoogleDialer
+rm -rf base_img/system/my_product/priv-app/GoogleFiles
 
 log "Fetching fspatch.py by affggh"
 curl -# -L -o fspatch.py "https://raw.githubusercontent.com/affggh/fspatch/refs/heads/main/fspatch.py"
